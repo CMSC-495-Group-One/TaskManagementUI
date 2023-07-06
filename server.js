@@ -10,5 +10,6 @@ app.get("*", function (req, res) {
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
-  console.log(`Server is up and running on port ${port}`);
+  console.log(`React is up and running on port ${port}`);
+  console.log(`http://localhost:${port}`);
 });
