@@ -1,32 +1,33 @@
 import React, { useState } from "react";
 import { useForm, FormProvider } from "react-hook-form"
 
-// import AuthService from "../services/AuthService";
+import AuthService from "../services/AuthService";
 import { useAuth } from "../context/AuthProvider";
+import { useServices } from "../context/ServicesProvider";
 
 const SignInForm = () => {
-  // const { AuthService } = useServices();
+  const { AuthService } = useServices();
   const formMethods = useForm()
   const { user } = useAuth()
   console.log({ user })
   const { register, handleSubmit, formState: { errors } } = formMethods
 
-  // const [isLoading, setIsLoading] = useState(false);
-  // const [loginError, setLoginError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [loginError, setLoginError] = useState(null);
 
   const onSubmit = async (data) => {
-    // AuthService.signIn(data)
-    // setIsLoading(true);
-    // setLoginError(null);
-    // try {
-    //   await AuthService.signIn(data);
-    //   setIsLoading(false);
-    //   // handle successful sign in, e.g. redirect to dashboard
-    // } catch (error) {
-    //   setIsLoading(false);
-    //   // handle error, e.g. show a message to the user
-    //   setLoginError('Invalid username or password.');
-    // }
+    AuthService.signIn(data)
+    setIsLoading(true);
+    setLoginError(null);
+    try {
+      await AuthService.signIn(data);
+      setIsLoading(false);
+      // handle successful sign in, e.g. redirect to dashboard
+    } catch (error) {
+      setIsLoading(false);
+      // handle error, e.g. show a message to the user
+      setLoginError('Invalid username or password.');
+    }
   };
 
   return (
