@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { useForm, FormProvider } from "react-hook-form";
+import { Navigate } from "react-router-dom";
 
 import { useAuth } from "../context/AuthProvider";
 
 const SignInForm = () => {
+  //localStorage.clear(); // Uncomment this to test if tasks route is protected
   const formMethods = useForm();
   const { user, signIn } = useAuth();
   console.log({ user });
@@ -51,8 +53,10 @@ const SignInForm = () => {
         </div>
         <input type="submit" />
       </form>
+      {user && <Navigate to="/tasks" state={user} replace={true} />}
     </FormProvider>
   );
 };
 
 export default SignInForm;
+
