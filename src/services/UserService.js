@@ -5,7 +5,7 @@ http.interceptors.request.use(
     (config) => {
         const token = localStorage.getItem('accessToken');
         if(token) {
-            config.headers['Authorization'] = 'Bearer ${token}';
+            config.headers[`Authorization`] = `Bearer ${token}`;
         } 
         return config;
     },
@@ -14,16 +14,39 @@ http.interceptors.request.use(
     }
 );
 
-// do we need to pull any of the user info out of the token here?
-// like sub, email, or userId?
+
 
 const UserService = {
     getUsers: async () => {
-        const response = await http.get('/users'); //user route?
+        const response = await http.get('/users'); 
         return response.data;
     },
     
+    getUserById: async (id) => {
+        const response = await http.get(`/users/${id}`);; 
+        return response.data;
+    },
+
+    updateUserById: async (id, userDto) => {
+        const response = await http.put(`/users/${id}`, userDto);
+        return response.data;
+    },
+
+    deleteUserById: async (id) => {
+        const response = await http.delete(`/users/${id}`);
+        return response.data;
+    },
+
+    getUserTasks: async (id) => {
+        const response = await http.get(`/users/${id}/tasks`);
+        return response.data;
+    },
+
+    getUserRoles: async (id) => {
+        const response = await http.get(`/users/${id}/roles`);
+        return response.data;
+    },    
 
 };
 
-export default new UserService();
+export default UserService();

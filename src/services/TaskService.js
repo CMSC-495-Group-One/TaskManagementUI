@@ -5,7 +5,7 @@ http.interceptors.request.use(
     (config) => {
         const token = localStorage.getItem('accessToken');
         if(token) {
-            config.headers['Authorization'] = 'Bearer ${token}';
+            config.headers[`Authorization`] = `Bearer ${token}`;
         } 
         return config;
     },
@@ -20,6 +20,26 @@ const TaskService = {
         return response.data;
     },
     
+    createTask: async (taskDto) => {
+        const response = await http.post('/tasks', taskDto);; 
+        return response.data;
+    },
+
+    getTasksById: async (id) => {
+        const response = await http.get(`/tasks/${id}`);; 
+        return response.data;
+    },
+
+    updateTaskById: async (id, taskDto) => {
+        const response = await http.put(`/tasks/${id}`, taskDto);
+        return response.data;
+    },
+
+    deleteTaskById: async (id) => {
+        const response = await http.delete(`/tasks/${id}`);
+        return response.data;
+    },
+   
 };
 
-export default new TaskService();
+export default TaskService();
