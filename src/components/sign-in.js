@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useForm, FormProvider } from "react-hook-form";
-
 import { useAuth } from "../context/AuthProvider";
 
 const SignInForm = () => {
