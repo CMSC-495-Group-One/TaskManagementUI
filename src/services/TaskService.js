@@ -42,4 +42,4 @@ const TaskService = {
    
 };
 
-export default TaskService();
+export default TaskService;
