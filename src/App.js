@@ -13,7 +13,7 @@ function App() {
           <AuthenticationProvider>
             <Routes>
               <Route path="/" element={<SignInForm />}/>
-              <Route path="/sign_in" element={<SignInForm />}/>
+              <Route path="/sign-in" element={<SignInForm />}/>
               <Route path="/tasks" element={<Tasks />}/>
             </Routes>
         </AuthenticationProvider>
