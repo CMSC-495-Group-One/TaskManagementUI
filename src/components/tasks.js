@@ -6,11 +6,10 @@ const Tasks = () => {
     const { state } = useLocation();
     if(!state || !state?.userId){
         return <Navigate to="/sign-in" />;
-    }else{
-        return (
-            <Box>Task Page<Outlet/></Box>
-        )
     }
+    return (
+        <Box>Task Page<Outlet/></Box>
+    )
 }
 
 export default Tasks
