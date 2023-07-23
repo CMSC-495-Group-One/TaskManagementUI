@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { useForm, FormProvider } from "react-hook-form";
 import { useAuth } from "../context/AuthProvider";
+import { useNavigate } from "react-router-dom";
 
 const SignInForm = () => {
   const formMethods = useForm();
-  const { user, signIn } = useAuth();
-  console.log({ user });
+  const { signIn } = useAuth();
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
@@ -21,7 +23,7 @@ const SignInForm = () => {
     try {
       await signIn(data);
       setIsLoading(false);
-      // handle successful sign in, e.g. redirect to dashboard
+      navigate("/tasks");
     } catch (error) {
       setIsLoading(false);
       // handle error, e.g. show a message to the user
