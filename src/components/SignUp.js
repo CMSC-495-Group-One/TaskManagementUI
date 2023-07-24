@@ -4,8 +4,8 @@ import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
+// import FormControlLabel from '@material-ui/core/FormControlLabel';
+// import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
@@ -13,6 +13,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import InputField from './InputField';
 
 function Copyright() {
   return (
@@ -83,58 +84,27 @@ export default function SignUp() {
         <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
-              <Controller
+              <InputField
                 name="firstName"
                 control={control}
                 defaultValue=""
                 rules={{ required: 'First Name is required' }}
-                render={({ field }) => (
-                  <TextField
-                    {...field}
-                    autoComplete="fname"
-                    // name="firstName"
-                    variant="outlined"
-                    required
-                    fullWidth
-                    // id="firstName"
-                    label="First Name"
-                    autoFocus
-                  />
-                )}
+                autoComplete="fname"
+                label="First Name"
               />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <Controller
+              <InputField
                 name="lastName"
                 control={control}
                 defaultValue=""
                 rules={{ required: 'Last Name is required' }}
-                render={({ field }) => (
-                  <TextField
-                    {...field}
-                    autoComplete="lname"
-                    // name="lastName"
-                    variant="outlined"
-                    required
-                    fullWidth
-                    // id="lastName"
-                    label="Last Name"
-                    autoFocus
-                  />
-                )}
-              />
-              {/* <TextField
-                variant="outlined"
-                required
-                fullWidth
-                id="lastName"
-                label="Last Name"
-                name="lastName"
                 autoComplete="lname"
-              /> */}
+                label="Last Name"
+              />
             </Grid>
             <Grid item xs={12}>
-              <Controller
+              <InputField
                 name="email"
                 control={control}
                 defaultValue=""
@@ -142,24 +112,14 @@ export default function SignUp() {
                   required: 'Email Address is required',
                   validate: value => isValidEmail(value) || 'Invalid Email Address',
                 }}
-                render={({ field }) => (
-                  <TextField
-                    {...field}
-                    autoComplete="email"
-                    // name="email"
-                    variant="outlined"
-                    required
-                    fullWidth
-                    // id="email"
-                    label="Email Address"
-                    error={!!errors.email}
-                    helperText={errors.email?.message}
-                  />
-                )}
+                autoComplete="email"
+                label="Email Address"
+                error={!!errors.email}
+                helperText={errors.email?.message}
               />
             </Grid>
             <Grid item xs={12}>
-            <Controller
+              <InputField
                 name="password"
                 control={control}
                 defaultValue=""
@@ -170,24 +130,14 @@ export default function SignUp() {
                     '\n and contain a lower case, uppercase, number,' +
                     '\n and at least one of these special char @$!%*?&',
                 }}
-                render={({ field }) => (
-                  <TextField
-                    {...field}
-                    autoComplete="current-password"
-                    // name="email"
-                    variant="outlined"
-                    required
-                    fullWidth
-                    // id="email"
-                    label="Password"
-                    error={!!errors.password}
-                    helperText={errors.password?.message}
-                  />
-                )}
+                autoComplete="current-password"
+                label="Password"
+                error={!!errors.password}
+                helperText={errors.password?.message}
               />
             </Grid>
             <Grid item xs={12}>
-            <Controller
+              <InputField
                 name="confirmPassword"
                 control={control}
                 defaultValue=""
@@ -196,20 +146,10 @@ export default function SignUp() {
                     validate: value => value === control.getValues('password') || 
                     'Passwords do not match',
                 }}
-                render={({ field }) => (
-                  <TextField
-                    {...field}
-                    autoComplete="current-password"
-                    // name="confirmPassword"
-                    variant="outlined"
-                    required
-                    fullWidth
-                    // id="confirmPassword"
-                    label="Confirm Password"
-                    error={!!errors.confirmPassword}
-                    helperText={errors.confirmPassword?.message}
-                  />
-                )}
+                autoComplete="current-password"
+                label="Confirm Password"
+                error={!!errors.confirmPassword}
+                helperText={errors.confirmPassword?.message}
               />
             </Grid>            
             {/* <Grid item xs={12}>
