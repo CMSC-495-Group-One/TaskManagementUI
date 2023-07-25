@@ -1,8 +1,8 @@
 import { BrowserRouter } from "react-router-dom";
 import "./App.css";
+import { Routes } from "./components/navigation/routes";
 import { AuthenticationProvider } from "./context";
 import { ServicesProvider } from "./context/ServicesProvider";
-import { Routes } from "./components/routes";
 
 function App() {
   return (
