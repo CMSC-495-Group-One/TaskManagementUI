@@ -2,6 +2,7 @@ import { Route, Routes as _Routes } from "react-router-dom";
 import SignInForm from "../sign-in";
 import Tasks from "../tasks";
 import { PrivateRoutes } from "./private-routes";
+import SignUp from "../SignUp";
 
 export const Routes = () => {
   return (
@@ -12,6 +13,7 @@ export const Routes = () => {
 
       <Route path="/" element={<SignInForm />} />
       <Route path="/sign-in" element={<SignInForm />} />
+      <Route path="/sign-up" element={<SignUp />} />
     </_Routes>
   );
 };
