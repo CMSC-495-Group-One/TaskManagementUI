@@ -16,7 +16,8 @@ import Button from "@material-ui/core/Button";
 import {IconButton, InputAdornment} from "@material-ui/core";
 import {Visibility, VisibilityOff} from "@material-ui/icons";
 import TextField from "@material-ui/core/TextField";
-
+import {Alert} from "@material-ui/lab";
+import http from "../services/HttpService";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -54,35 +55,40 @@ function Copyright() {
 
 export default function SignInForm() {
     const classes = useStyles();
-    //const { handleSubmit, control, formState: { errors } } = useForm();
+        const formMethods = useForm();
+        const { signIn } = useAuth();
+        const navigate = useNavigate();
 
-    const formMethods = useForm();
-    const {signIn} = useAuth();
-    const navigate = useNavigate();
+        const {
+            control,
+            register,
+            handleSubmit,
+            formState: { errors },
+        } = formMethods;
 
-    const {
-        register,
-        control,
-        handleSubmit,
-        formState: {errors},
-    } = formMethods;
+        const [isLoading, setIsLoading] = useState(false);
+        const [loginError, setLoginError] = useState(null);
 
-    const [isLoading, setIsLoading] = useState(false);
-    const [loginError, setLoginError] = useState(null);
 
-    const onSubmit = async (data) => {
-        setIsLoading(true);
-        setLoginError(null);
-        try {
-            await signIn(data);
-            setIsLoading(false);
-            navigate("/tasks");
-        } catch (error) {
-            setIsLoading(false);
-            // handle error, e.g. show a message to the user
-            setLoginError("Invalid username or password.");
-        }
-    }
+        const onSubmit = async (data) => {
+            setIsLoading(true);
+            setLoginError(null);
+            try {
+                await signIn(data);
+                setIsLoading(false);
+                navigate("/tasks");
+            } catch (error) {
+                setIsLoading(false);
+                // handle error, e.g. show a message to the user
+                setLoginError("Invalid username or password.");
+            }
+        };
+
+    // Error Message Div:
+    const errorDiv =loginError
+        ? <Alert severity="error">{loginError}</Alert>
+        : '';
+
     const [showPassword, setShowPassword] = useState(false);
 
     const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -104,8 +110,10 @@ export default function SignInForm() {
                 </Typography>
                 <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
                     <Grid container spacing={2}>
+                        <Grid item xs={12}>{errorDiv}</Grid>
                         <Grid item xs={12}>
                             <InputField
+                                {...register("username")}
                                 name="username"
                                 control={control}
                                 defaultValue=""
@@ -120,14 +128,15 @@ export default function SignInForm() {
                         </Grid>
                         <Grid item xs={12}>
                             <TextField
+                                {...register("password")}
                                 name="password"
                                 label="Password"
                                 control={control}
                                 defaultValue=""
-                                type={showPassword ? "text" : "password"}
                                 required
                                 fullWidth
                                 variant="outlined"
+                                type={showPassword ? "text" : "password"}
                                 InputProps={
                                 {
                                     endAdornment: (
@@ -144,9 +153,6 @@ export default function SignInForm() {
                                     )
 
                                             }}
-                                rules={{
-                                    required: 'Password is required',
-                                }}
                                 error={!!errors.password}
                                 helperText={errors.password?.message}
                             />
