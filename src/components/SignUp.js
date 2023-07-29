@@ -171,7 +171,7 @@ export default function SignUp() {
                 autoComplete="email"
                 label="Email Address"
                 error={!!errors.email}
-                helperText={errors.email?.message}
+                helperText={errors?.email?.message}
               />
             </Grid>
             {/*/!* Print username already exists message below email field  *!/*/}
