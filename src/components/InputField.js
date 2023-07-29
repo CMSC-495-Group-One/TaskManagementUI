@@ -3,7 +3,7 @@ import { Controller } from 'react-hook-form';
 import TextField from '@material-ui/core/TextField';
 
 function InputField({ name, control, defaultValue, rules, label, autoComplete, 
-    error, helperText }) {
+    type, error, helperText }) {
   return (
     <Controller
       name={name}
@@ -18,6 +18,7 @@ function InputField({ name, control, defaultValue, rules, label, autoComplete,
           required
           fullWidth
           label={label}
+          type={type}
           error={error}
           helperText={helperText}
         />

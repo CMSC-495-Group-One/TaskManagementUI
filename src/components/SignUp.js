@@ -1,4 +1,5 @@
-import React from 'react';
+// import React from 'react';
+import React, { useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -14,6 +15,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import InputField from './InputField';
+import http from '../services/HttpService';
 
 function Copyright() {
   return (
@@ -63,12 +65,33 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignUp() {
   const classes = useStyles();
-  const { handleSubmit, control, formState: { errors } } = useForm();
+  const { handleSubmit, control, formState: { errors }, getValues } = useForm();
 
-  const onSubmit = (data) => {
-    // Additional actions on form submission here
-    // placemarker to call our API to chk and save data
-    console.log(data);
+  const [errorMessage, setErrorMessage] = useState(null);
+  
+  const onSubmit = async (data) => {
+    // console.log(data);
+
+    try {
+      // Create JSON object in the shape of SignUpDto.java
+      const signUpDto = {
+        username: data.email, // Using email as the username for now
+        firstname: data.firstName,
+        lastname: data.lastName,
+        password: data.password,
+        email: data.email,
+      };
+      
+      // Send the POST request to backend endpoint
+      const response = await http.post('/auth/signup', signUpDto);
+      console.log(response.data);
+
+    // Catch username already exists error.
+    } catch (error) {
+        console.error('Error signing up:', error.response.data.message);
+        setErrorMessage(error.response.data.message);
+
+    }
   };
 
   return (
@@ -80,6 +103,8 @@ export default function SignUp() {
         </Avatar>
         <Typography component="h1" variant="h5">
           Sign up
+          {/* Testing where to print username already exists message */}
+          {/* {errorMessage && <div>{errorMessage}</div>} */}
         </Typography>
         <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
           <Grid container spacing={2}>
@@ -118,6 +143,9 @@ export default function SignUp() {
                 helperText={errors.email?.message}
               />
             </Grid>
+            {/* Print username already exists message below email field  */}
+            {/* {errorMessage && <div>{errorMessage}</div>} */}
+            {errorMessage && (<div style={{ color: 'red' }}>{errorMessage}</div>)}
             <Grid item xs={12}>
               <InputField
                 name="password"
@@ -127,11 +155,12 @@ export default function SignUp() {
                     required: 'Password is required',
                     validate: value => isValidPassword(value) || 
                     'Password must be at least 8 characters long' + 
-                    '\n and contain a lower case, uppercase, number,' +
-                    '\n and at least one of these special char @$!%*?&',
+                    ' and contain a lower case, uppercase, number,' +
+                    ' and at least one of these special char @$!%*?&',
                 }}
-                autoComplete="current-password"
+                autoComplete="new-password"
                 label="Password"
+                type="password"
                 error={!!errors.password}
                 helperText={errors.password?.message}
               />
@@ -143,11 +172,12 @@ export default function SignUp() {
                 defaultValue=""
                 rules={{
                     required: 'Confirm Password is required',
-                    validate: value => value === control.getValues('password') || 
-                    'Passwords do not match',
+                    validate: value => value === getValues('password') || 
+                    'Passwords do not match', 
                 }}
-                autoComplete="current-password"
+                autoComplete="new-password"
                 label="Confirm Password"
+                type="password"
                 error={!!errors.confirmPassword}
                 helperText={errors.confirmPassword?.message}
               />
