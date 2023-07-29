@@ -16,7 +16,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import InputField from './InputField';
 import http from '../services/HttpService';
-
+import {useNavigate} from "react-router-dom";
+import {Alert} from "@material-ui/lab";
+import ExitToAppOutlinedIcon from '@material-ui/icons/ExitToAppOutlined';
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -68,7 +70,9 @@ export default function SignUp() {
   const { handleSubmit, control, formState: { errors }, getValues } = useForm();
 
   const [errorMessage, setErrorMessage] = useState(null);
-  
+  const [successMessage, setSuccessMessage] = useState(null);
+
+  const navigate = useNavigate();
   const onSubmit = async (data) => {
     // console.log(data);
 
@@ -85,14 +89,39 @@ export default function SignUp() {
       // Send the POST request to backend endpoint
       const response = await http.post('/auth/signup', signUpDto);
       console.log(response.data);
+      //window.location.reload();
+      setSuccessMessage("User Registered Successfully!");
+      setErrorMessage("");
 
     // Catch username already exists error.
     } catch (error) {
         console.error('Error signing up:', error.response.data.message);
         setErrorMessage(error.response.data.message);
+        setSuccessMessage("");
 
     }
   };
+
+  const successDiv =successMessage
+      ? <Alert
+          action={
+
+            <Button color="inherit" size="small"
+                    endIcon={<ExitToAppOutlinedIcon />}
+                    aria-label ="Click to Login"
+                    onClick={() => {
+                      navigate("/sign-in");
+                    }}>
+              Login
+            </Button>
+          }
+      >{successMessage}</Alert>
+      : '';
+
+  //To Show user taken error message
+  const errorDiv =errorMessage
+      ? <Alert severity="error">{errorMessage}</Alert>
+      : '';
 
   return (
     <Container component="main" maxWidth="xs">
@@ -108,6 +137,8 @@ export default function SignUp() {
         </Typography>
         <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
           <Grid container spacing={2}>
+            <Grid item xs={12}>{successDiv}</Grid>
+
             <Grid item xs={12} sm={6}>
               <InputField
                 name="firstName"
@@ -143,9 +174,10 @@ export default function SignUp() {
                 helperText={errors.email?.message}
               />
             </Grid>
-            {/* Print username already exists message below email field  */}
-            {/* {errorMessage && <div>{errorMessage}</div>} */}
-            {errorMessage && (<div style={{ color: 'red' }}>{errorMessage}</div>)}
+            {/*/!* Print username already exists message below email field  *!/*/}
+            {/*/!* {errorMessage && <div>{errorMessage}</div>} *!/*/}
+            {/*{errorMessage && (<div style={{ color: 'red' }}>{errorMessage}</div>)}*/}
+            <Grid item xs={12}>{errorDiv}</Grid>
             <Grid item xs={12}>
               <InputField
                 name="password"

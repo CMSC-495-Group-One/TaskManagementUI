@@ -1,6 +1,6 @@
 import React, {useState} from "react";
-import {useForm, FormProvider} from "react-hook-form";
-import {useAuth} from "../context/AuthProvider";
+import {useForm} from "react-hook-form";
+import {useAuth} from "../context";
 import {useNavigate} from "react-router-dom";
 import {makeStyles} from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -17,7 +17,6 @@ import {IconButton, InputAdornment} from "@material-ui/core";
 import {Visibility, VisibilityOff} from "@material-ui/icons";
 import TextField from "@material-ui/core/TextField";
 import {Alert} from "@material-ui/lab";
-import http from "../services/HttpService";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
