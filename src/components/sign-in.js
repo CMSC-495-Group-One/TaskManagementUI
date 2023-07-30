@@ -1,23 +1,14 @@
 import React, {useState} from "react";
 import {useForm} from "react-hook-form";
 import {useAuth} from "../context";
-import {useNavigate} from "react-router-dom";
-import {makeStyles} from "@material-ui/core/styles";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import Avatar from "@material-ui/core/Avatar";
-import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
-import Typography from "@material-ui/core/Typography";
-import Grid from "@material-ui/core/Grid";
 import InputField from "./InputField";
-import Container from "@material-ui/core/Container";
-import Box from "@material-ui/core/Box";
-import Link from "@material-ui/core/Link";
-import Button from "@material-ui/core/Button";
-import {IconButton, InputAdornment} from "@material-ui/core";
-import {Visibility, VisibilityOff} from "@material-ui/icons";
-import TextField from "@material-ui/core/TextField";
+import {useNavigate} from "react-router-dom";
+import {Avatar, Box,Button, Container, CssBaseline, Grid, IconButton, InputAdornment, Link, makeStyles,Typography } from "@material-ui/core";
+import { Visibility, VisibilityOff} from "@material-ui/icons";
+import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import {Alert} from "@material-ui/lab";
 
+//Styling
 const useStyles = makeStyles((theme) => ({
     paper: {
         marginTop: theme.spacing(8),
@@ -42,8 +33,7 @@ function Copyright() {
     return (
         <Typography variant="body2" color="textSecondary" align="center">
             {'Copyright © '}
-            <Link color="inherit" href="https://github.com/CMSC-495-Group-One">
-                {/* Your Website */}
+            <Link color="inherit" href="https://github.com/CMSC-495-Group-One/TaskManagementUI.git">
                 Git Repo
             </Link>{' '}
             {new Date().getFullYear()}
@@ -54,48 +44,44 @@ function Copyright() {
 
 export default function SignInForm() {
     const classes = useStyles();
-        const formMethods = useForm();
-        const { signIn } = useAuth();
-        const navigate = useNavigate();
+    const formMethods = useForm();
+    const {signIn} = useAuth();
+    const navigate = useNavigate();
 
-        const {
-            control,
-            register,
-            handleSubmit,
-            formState: { errors },
-        } = formMethods;
+    const {
+        control,
+        handleSubmit,
+        formState: {errors},
+    } = formMethods;
 
-        const [isLoading, setIsLoading] = useState(false);
-        const [loginError, setLoginError] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
+    const [loginError, setLoginError] = useState(null);
 
-
-        const onSubmit = async (data) => {
-            setIsLoading(true);
-            setLoginError(null);
-            try {
-                await signIn(data);
-                setIsLoading(false);
-                navigate("/tasks");
-            } catch (error) {
-                setIsLoading(false);
-                // handle error, e.g. show a message to the user
-                setLoginError("Invalid username or password.");
-            }
-        };
+    const onSubmit = async (data) => {
+        setIsLoading(true);
+        setLoginError(null);
+        try {
+            await signIn(data);
+            setIsLoading(false);
+            navigate("/tasks");
+        } catch (error) {
+            setIsLoading(false);
+            // handle error, e.g. show a message to the user
+            setLoginError("Invalid username or password.");
+        }
+    };
 
     // Error Message Div:
-    const errorDiv =loginError
+    const errorDiv = loginError
         ? <Alert severity="error">{loginError}</Alert>
         : '';
 
+    // Show/Hide password by clicking on the eye icon in the password field
     const [showPassword, setShowPassword] = useState(false);
-
     const handleClickShowPassword = () => setShowPassword((show) => !show);
-
     const handleMouseDownPassword = (event) => {
         event.preventDefault();
     };
-
 
     return (
         <Container component="main" maxWidth="xs">
@@ -112,7 +98,6 @@ export default function SignInForm() {
                         <Grid item xs={12}>{errorDiv}</Grid>
                         <Grid item xs={12}>
                             <InputField
-                                {...register("username")}
                                 name="username"
                                 control={control}
                                 defaultValue=""
@@ -126,32 +111,27 @@ export default function SignInForm() {
                             />
                         </Grid>
                         <Grid item xs={12}>
-                            <TextField
-                                {...register("password")}
+                            <InputField
                                 name="password"
                                 label="Password"
                                 control={control}
-                                defaultValue=""
-                                required
-                                fullWidth
-                                variant="outlined"
                                 type={showPassword ? "text" : "password"}
+                                //Show and hide password
                                 InputProps={
-                                {
-                                    endAdornment: (
-                                        <InputAdornment position="end">
-                                        <IconButton
-                                            aria-label="toggle password visibility"
-                                            onClick={handleClickShowPassword}
-                                            onMouseDown={handleMouseDownPassword}
-                                            edge="end"
-                                                    >
-                                            {showPassword ? <VisibilityOff /> : <Visibility />}
-                                        </IconButton>
-                                        </InputAdornment>
-                                    )
-
-                                            }}
+                                    {
+                                        endAdornment: (
+                                            <InputAdornment position="end">
+                                                <IconButton
+                                                    aria-label="toggle password visibility"
+                                                    onClick={handleClickShowPassword}
+                                                    onMouseDown={handleMouseDownPassword}
+                                                    edge="end"
+                                                >
+                                                    {showPassword ? <VisibilityOff/> : <Visibility/>}
+                                                </IconButton>
+                                            </InputAdornment>
+                                        )
+                                    }}
                                 error={!!errors.password}
                                 helperText={errors.password?.message}
                             />
