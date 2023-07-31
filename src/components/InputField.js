@@ -2,14 +2,15 @@ import React from 'react';
 import { Controller } from 'react-hook-form';
 import TextField from '@material-ui/core/TextField';
 
-function InputField({ name, control, defaultValue, rules, label, autoComplete, 
-    type, error, helperText }) {
+function InputField({ name, control, defaultValue, rules, label, autoComplete, type, InputProps,
+    error, helperText }) {
   return (
     <Controller
       name={name}
       control={control}
       defaultValue={defaultValue}
       rules={rules}
+
       render={({ field }) => (
         <TextField
           {...field}
@@ -18,9 +19,10 @@ function InputField({ name, control, defaultValue, rules, label, autoComplete,
           required
           fullWidth
           label={label}
-          type={type}
           error={error}
           helperText={helperText}
+          type={type}
+          InputProps={InputProps}
         />
       )}
     />
