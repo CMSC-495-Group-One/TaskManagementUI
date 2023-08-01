@@ -19,7 +19,13 @@ import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import Button from '@material-ui/core/Button';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 import { mainListItems } from './listItems';
+import Modal from './modals';
 
 function Copyright() {
   return (
@@ -126,6 +132,16 @@ export default function Tasks() {
   const handleDrawerClose = () => {
     setOpen(false);
   };
+
+  const [showModal, setShowModal]= React.useState(false);
+  const handleClickOpen = () => {
+    setShowModal(true);
+  };
+
+  const handleClose = () => {
+    setShowModal(false);
+  };
+
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
   return (
@@ -170,9 +186,17 @@ export default function Tasks() {
       </Drawer>
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
-        <Button variant="contained" color="primary">
+        <Button variant="contained" color="primary" onClick={handleClickOpen}>
           Add Task
         </Button> 
+        {/*<Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+          <Modal/>
+          <DialogActions>
+          <Button onClick={handleClose} color="primary">
+            Publish
+          </Button>
+        </DialogActions>
+      </Dialog>*/}
         <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={3}>
             <Grid item xs={12}>
