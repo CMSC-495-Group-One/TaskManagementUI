@@ -1,4 +1,5 @@
-import React from 'react';
+import {React, useState} from 'react';
+// import {useForm} from 'react-hook-form';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
@@ -10,6 +11,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+// import InputField from '../InputField';
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -21,13 +23,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Modal() {
+export default function Modal({ title, description, difficulty, onTitleChange,
+     onDescriptionChange, onDifficultyChange }) {
   const classes = useStyles();
-  const [difficulty, setDifficulty] = React.useState('');
+//   const {control} = useForm();
+//   const [difficulty, setDifficulty] = useState('');
 
-  const handleChange = (event) => {
-    setDifficulty(event.target.value);
-  };
+//   const handleChange = (event) => {
+//     setDifficulty(event.target.value);
+//   };
 
   return (
     <div>
@@ -36,26 +40,40 @@ export default function Modal() {
         <TextField
           autoFocus
           margin="dense"
-         id="name"
-         label="Task Title"
-          type="Title"
-         fullWidth
-      />
-        <TextField
-         autoFocus
-         margin="dense"
           id="name"
+        //   name="title"
+          label="Task Title"
+          type="Title"
+          fullWidth
+          value={title}
+          onChange={onTitleChange}
+      />
+        {/* <InputField
+            name="title"
+            control={control}
+            defaultValue=""
+            label="Task Title"
+        /> */}
+        <TextField
+          autoFocus
+          margin="dense"
+          id="name"
+        //   name="description"
           label="Task Description"
           type="Description"
           fullWidth
+          value={description}
+          onChange={onDescriptionChange}
         />
         <FormControl className={classes.formControl}>
         <InputLabel id="demo-simple-select-label">Difficulty</InputLabel>
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
+        //   name="difficulty"
           value={difficulty}
-          onChange={handleChange}
+        //   onChange={handleChange}
+          onChange={onDifficultyChange}
         >
           <MenuItem value={"Easy"}>Easy</MenuItem>
           <MenuItem value={"Medium"}>Medium</MenuItem>

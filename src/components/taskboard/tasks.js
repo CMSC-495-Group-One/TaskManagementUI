@@ -1,4 +1,5 @@
-import React from 'react';
+// import React from 'react';
+import React, {useState} from 'react';
 import clsx from 'clsx';
 import {
     makeStyles,
@@ -28,19 +29,30 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import { mainListItems } from './listItems';
 import Modal from './modals';
+import TaskService from '../../services/TaskService';
+import {useAuth} from "../../context/AuthProvider";
 
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
+      <Link color="inherit" href="https://github.com/CMSC-495-Group-One/TaskManagementUI.gi">
+        Git Repo
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
     </Typography>
   );
 }
+
+// // Create JSON object in the shape of TaskDto.java
+// function createTaskDto(title, description, difficulty) {
+//   return {
+//     title: title,
+//     description: description,
+//     difficulty: difficulty,
+//   };
+// }
 
 const drawerWidth = 240;
 
@@ -127,7 +139,10 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Tasks() {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(true);
+
+  const { createdTask } = useAuth;
+
+  const [open, setOpen] = useState(true);
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -135,19 +150,60 @@ export default function Tasks() {
     setOpen(false);
   };
 
-  const [showModal, setShowModal]= React.useState(false);
+  const [showModal, setShowModal]= useState(false);
   const handleClickOpen = () => {
     setShowModal(true);
   };
 
   const handleClose = () => {
+//   const handleClose = async (data) => {
     setShowModal(false);
+    // console.log(data);
+    // try {
+    //     // Create JSON object in the shape of TaskDto.java
+    //     const taskDto = {
+    //         title: data.Modal.title,
+    //         description: data.description,
+    //         userID: data.userID,
+    //         difficulty: data.difficulty,
+    //     };
+
+
+    // } catch (error) {
+        
+    // }
   };
+
+  // State to store the task data
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [difficulty, setDifficulty] = useState('');
+
+  // Handle task creation
+  const handleCreateTask = async () => {
+    // Create JSON object in the shape of TaskDto.java
+    // const taskDto = createTaskDto(title, description, difficulty);
+    const taskDto = {
+        title: title,
+        description: description,
+        difficulty: difficulty,
+    };
+
+    // Send the POST request to backend endpoint using TaskService and close modal
+    try {
+        const createdTask = await TaskService.createTask(taskDto);
+        console.log('Created Task:', createdTask);
+        setShowModal(false);
+    } catch (error) {
+        console.error('Error creating task:', error);
+    }
+  };
+
 
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
   // Create a ref for the Dialog component to fix WARNING
-  const dialogRef = React.useRef();  
+//   const dialogRef = React.useRef();  
   
   return (
     <Box className={classes.root}>
@@ -194,15 +250,17 @@ export default function Tasks() {
         <Button variant="contained" color="primary" onClick={handleClickOpen}>
           Add Task
         </Button> 
-        {/* <Dialog open={showModal} onClose={handleClose} aria-labelledby="form-dialog-title">
-          <Modal/>
-          <DialogActions>
+        
+      {/* <Dialog open={showModal} onClose={handleClose} aria-labelledby="form-dialog-title">
+        <Modal/>
+        <DialogActions>
           <Button onClick={handleClose} color="primary">
             Publish
           </Button>
         </DialogActions>
       </Dialog> */}
-      <Dialog
+      
+      {/* <Dialog
         // Use showModal to control the Dialog visibility
         open={showModal}
         onClose={handleClose}
@@ -218,7 +276,27 @@ export default function Tasks() {
               Publish
               </Button>
         </DialogActions>
-      </Dialog>
+      </Dialog> */}
+
+    <Dialog open={showModal} aria-labelledby="form-dialog-title">
+      <Modal
+        title={title}
+        description={description}
+        difficulty={difficulty}
+        onTitleChange={(e) => setTitle(e.target.value)}
+        onDescriptionChange={(e) => setDescription(e.target.value)}
+        onDifficultyChange={(e) => setDifficulty(e.target.value)}
+      />
+      <DialogActions>
+        <Button onClick={handleClose} color="primary">
+          Cancel
+        </Button>
+        <Button onClick={handleCreateTask} color="primary">
+          Publish
+        </Button>
+      </DialogActions>
+    </Dialog>      
+      
         <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={3}>
             <Grid item xs={12}>
