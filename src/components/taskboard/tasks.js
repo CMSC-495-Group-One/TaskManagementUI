@@ -1,29 +1,31 @@
 import React from 'react';
 import clsx from 'clsx';
-import { makeStyles } from '@material-ui/core/styles';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Drawer from '@material-ui/core/Drawer';
-import Box from '@material-ui/core/Box';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import List from '@material-ui/core/List';
-import Typography from '@material-ui/core/Typography';
-import Divider from '@material-ui/core/Divider';
-import IconButton from '@material-ui/core/IconButton';
-import Badge from '@material-ui/core/Badge';
-import Container from '@material-ui/core/Container';
-import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
-import Link from '@material-ui/core/Link';
+import {
+    makeStyles,
+    CssBaseline,
+    Drawer,
+    Box,
+    AppBar,
+    Toolbar,
+    List,
+    Typography,
+    Divider,
+    IconButton,
+    Badge,
+    Container,
+    Grid,
+    Paper,
+    Link,
+    Button,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogContentText,
+    DialogTitle
+} from "@material-ui/core"
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
-import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
 import { mainListItems } from './listItems';
 import Modal from './modals';
 
@@ -144,6 +146,9 @@ export default function Tasks() {
 
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
+  // Create a ref for the Dialog component to fix WARNING
+  const dialogRef = React.useRef();  
+  
   return (
     <Box className={classes.root}>
       <CssBaseline />
@@ -189,14 +194,31 @@ export default function Tasks() {
         <Button variant="contained" color="primary" onClick={handleClickOpen}>
           Add Task
         </Button> 
-        {/*<Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+        {/* <Dialog open={showModal} onClose={handleClose} aria-labelledby="form-dialog-title">
           <Modal/>
           <DialogActions>
           <Button onClick={handleClose} color="primary">
             Publish
           </Button>
         </DialogActions>
-      </Dialog>*/}
+      </Dialog> */}
+      <Dialog
+        // Use showModal to control the Dialog visibility
+        open={showModal}
+        onClose={handleClose}
+        aria-labelledby="form-dialog-title"
+        // Set the Dialog's ref to the created ref
+        ref={dialogRef}
+      >
+        <DialogContent>
+            <Modal/>
+        </DialogContent>
+        <DialogActions>
+            <Button onClick={handleClose} color="primary">
+              Publish
+              </Button>
+        </DialogActions>
+      </Dialog>
         <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={3}>
             <Grid item xs={12}>
