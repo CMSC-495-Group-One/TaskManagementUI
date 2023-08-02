@@ -1,4 +1,3 @@
-// import React from 'react';
 import React, {useState} from 'react';
 import {useForm, Controller} from 'react-hook-form';
 import InputField from './InputField';
@@ -24,7 +23,6 @@ function Copyright() {
         <Typography variant="body2" color="textSecondary" align="center">
             {'Copyright © '}
             <Link color="inherit" href="https://github.com/CMSC-495-Group-One/TaskManagementUI.git">
-                {/* Your Website */}
                 Git Repo
             </Link>{' '}
             {new Date().getFullYear()}
@@ -34,13 +32,12 @@ function Copyright() {
 }
 
 function isValidEmail(email) {
-    // Basic email validation regex; we can use more comprehensive one if needed
+    // Basic email validation regex
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
 function isValidPassword(password) {
-    // Password validation logic so far, but we can tweak as needed
-//   return password.length >= 8;
+    // Password validation logic 
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])\S{8,}$/;
     return passwordRegex.test(password);
 }
@@ -74,7 +71,6 @@ export default function SignUp() {
 
     const navigate = useNavigate();
     const onSubmit = async (data) => {
-        // console.log(data);
 
         try {
             // Create JSON object in the shape of SignUpDto.java
@@ -89,11 +85,10 @@ export default function SignUp() {
             // Send the POST request to backend endpoint
             const response = await http.post('/auth/signup', signUpDto);
             console.log(response.data);
-            //window.location.reload();
             setSuccessMessage("User Registered Successfully!");
             setErrorMessage("");
 
-            // Catch username already exists error.
+        // Catch username already exists error.
         } catch (error) {
             console.error('Error signing up:', error.response.data.message);
             setErrorMessage(error.response.data.message);
@@ -102,6 +97,7 @@ export default function SignUp() {
         }
     };
 
+    // Tell user registeration successful and give link to sign in
     const successDiv = successMessage
         ? <Alert
             action={
@@ -117,11 +113,6 @@ export default function SignUp() {
         >{successMessage}</Alert>
         : '';
 
-    //To Show user taken error message
-    const errorDiv = errorMessage
-        ? <Alert severity="error">{errorMessage}</Alert>
-        : '';
-
     return (
         <Container component="main" maxWidth="xs">
             <CssBaseline/>
@@ -131,8 +122,6 @@ export default function SignUp() {
                 </Avatar>
                 <Typography component="h1" variant="h5">
                     Sign up
-                    {/* Testing where to print username already exists message */}
-                    {/* {errorMessage && <div>{errorMessage}</div>} */}
                 </Typography>
                 <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
                     <Grid container spacing={2}>
@@ -173,10 +162,10 @@ export default function SignUp() {
                                 helperText={errors?.email?.message}
                             />
                         </Grid>
-                        {/*/!* Print username already exists message below email field  *!/*/}
-                        {/*/!* {errorMessage && <div>{errorMessage}</div>} *!/*/}
-                        {/*{errorMessage && (<div style={{ color: 'red' }}>{errorMessage}</div>)}*/}
-                        <Grid item xs={12}>{errorDiv}</Grid>
+                        <Grid item xs={12}>
+                            {/* Display username already exists error. */}
+                            {errorMessage && <Alert severity="error">{errorMessage}</Alert>}
+                            </Grid>
                         <Grid item xs={12}>
                             <InputField
                                 name="password"
@@ -213,12 +202,6 @@ export default function SignUp() {
                                 helperText={errors.confirmPassword?.message}
                             />
                         </Grid>
-                        {/* <Grid item xs={12}>
-              <FormControlLabel
-                control={<Checkbox value="allowExtraEmails" color="primary" />}
-                label="I want to receive updates via email."
-              />
-            </Grid> */}
                     </Grid>
                     <Button
                         type="submit"

@@ -71,11 +71,6 @@ export default function SignInForm() {
         }
     };
 
-    // Error Message Div:
-    const errorDiv = loginError
-        ? <Alert severity="error">{loginError}</Alert>
-        : '';
-
     // Show/Hide password by clicking on the eye icon in the password field
     const [showPassword, setShowPassword] = useState(false);
     const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -95,7 +90,10 @@ export default function SignInForm() {
                 </Typography>
                 <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
                     <Grid container spacing={2}>
-                        <Grid item xs={12}>{errorDiv}</Grid>
+                        <Grid item xs={12}>
+                            {/* Show user login error */}
+                            {loginError && <Alert severity="error">{loginError}</Alert>}
+                            </Grid>
                         <Grid item xs={12}>
                             <InputField
                                 name="username"
