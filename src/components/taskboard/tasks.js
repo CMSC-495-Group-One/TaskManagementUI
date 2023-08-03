@@ -1,4 +1,3 @@
-// import React from 'react';
 import React, {useState} from 'react';
 import clsx from 'clsx';
 import {
@@ -31,6 +30,7 @@ import { mainListItems } from './listItems';
 import Modal from './modals';
 import TaskService from '../../services/TaskService';
 import {useAuth} from "../../context/AuthProvider";
+import { useNavigate } from 'react-router-dom';
 
 function Copyright() {
   return (
@@ -44,15 +44,6 @@ function Copyright() {
     </Typography>
   );
 }
-
-// // Create JSON object in the shape of TaskDto.java
-// function createTaskDto(title, description, difficulty) {
-//   return {
-//     title: title,
-//     description: description,
-//     difficulty: difficulty,
-//   };
-// }
 
 const drawerWidth = 240;
 
@@ -140,7 +131,8 @@ const useStyles = makeStyles((theme) => ({
 export default function Tasks() {
   const classes = useStyles();
 
-  const { createdTask } = useAuth;
+  const { signIn, user } = useAuth();
+  const navigate = useNavigate();
 
   const [open, setOpen] = useState(true);
   const handleDrawerOpen = () => {
@@ -156,22 +148,11 @@ export default function Tasks() {
   };
 
   const handleClose = () => {
-//   const handleClose = async (data) => {
     setShowModal(false);
-    // console.log(data);
-    // try {
-    //     // Create JSON object in the shape of TaskDto.java
-    //     const taskDto = {
-    //         title: data.Modal.title,
-    //         description: data.description,
-    //         userID: data.userID,
-    //         difficulty: data.difficulty,
-    //     };
-
-
-    // } catch (error) {
-        
-    // }
+    // Clear the input fields after clicking Cancel button
+    setTitle('');
+    setDescription('');
+    setDifficulty('');   
   };
 
   // State to store the task data
@@ -179,10 +160,15 @@ export default function Tasks() {
   const [description, setDescription] = useState('');
   const [difficulty, setDifficulty] = useState('');
 
-  // Handle task creation
   const handleCreateTask = async () => {
-    // Create JSON object in the shape of TaskDto.java
-    // const taskDto = createTaskDto(title, description, difficulty);
+    // Check if user is authenticated (i.e., already signed in)
+    if(!user) {
+      //If not authenticated send to sign-in page
+      navigate("/sign-in");
+      return;  // stop further execution of the task creation process
+    }
+
+    // If user is authenticated create JSON object in the shape of TaskDto.java
     const taskDto = {
         title: title,
         description: description,
@@ -194,17 +180,19 @@ export default function Tasks() {
         const createdTask = await TaskService.createTask(taskDto);
         console.log('Created Task:', createdTask);
         setShowModal(false);
+        
+        // Clear the input fields after successful task creation
+        setTitle('');
+        setDescription('');
+        setDifficulty('');
+
     } catch (error) {
         console.error('Error creating task:', error);
     }
   };
 
-
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
-  // Create a ref for the Dialog component to fix WARNING
-//   const dialogRef = React.useRef();  
-  
   return (
     <Box className={classes.root}>
       <CssBaseline />
@@ -250,35 +238,8 @@ export default function Tasks() {
         <Button variant="contained" color="primary" onClick={handleClickOpen}>
           Add Task
         </Button> 
-        
-      {/* <Dialog open={showModal} onClose={handleClose} aria-labelledby="form-dialog-title">
-        <Modal/>
-        <DialogActions>
-          <Button onClick={handleClose} color="primary">
-            Publish
-          </Button>
-        </DialogActions>
-      </Dialog> */}
       
-      {/* <Dialog
-        // Use showModal to control the Dialog visibility
-        open={showModal}
-        onClose={handleClose}
-        aria-labelledby="form-dialog-title"
-        // Set the Dialog's ref to the created ref
-        ref={dialogRef}
-      >
-        <DialogContent>
-            <Modal/>
-        </DialogContent>
-        <DialogActions>
-            <Button onClick={handleClose} color="primary">
-              Publish
-              </Button>
-        </DialogActions>
-      </Dialog> */}
-
-    <Dialog open={showModal} aria-labelledby="form-dialog-title">
+    <Dialog open={showModal} onClose={handleClose} aria-labelledby="form-dialog-title">
       <Modal
         title={title}
         description={description}
