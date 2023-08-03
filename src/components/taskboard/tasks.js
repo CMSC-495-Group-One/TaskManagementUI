@@ -28,6 +28,7 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import { mainListItems } from './listItems';
 import Modal from './modals';
+import Cards from './cards';
 import TaskService from '../../services/TaskService';
 import { useAuth } from "../../context/AuthProvider";
 import { useNavigate } from 'react-router-dom';
@@ -153,12 +154,14 @@ export default function Tasks() {
         setTitle('');
         setDescription('');
         setDifficulty('');
+        setStatus('');
     };
 
     // State to store the task data
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [difficulty, setDifficulty] = useState('');
+    const [status, setStatus] = useState('');
 
     const handleCreateTask = async () => {
         //If not authenticated send to sign-in page
@@ -185,6 +188,7 @@ export default function Tasks() {
             setTitle('');
             setDescription('');
             setDifficulty('');
+            setStatus('');
 
         } catch (error) {
             console.error('Error creating task:', error);
@@ -244,9 +248,11 @@ export default function Tasks() {
                         title={title}
                         description={description}
                         difficulty={difficulty}
+                        status={status}
                         onTitleChange={(e) => setTitle(e.target.value)}
                         onDescriptionChange={(e) => setDescription(e.target.value)}
                         onDifficultyChange={(e) => setDifficulty(e.target.value)}
+                        onStatusChange={(e) => setStatus(e.target.value)}
                     />
                     <DialogActions>
                         <Button onClick={handleClose} color="primary">
@@ -265,20 +271,34 @@ export default function Tasks() {
                                 <Grid item xs={3}>
                                     <Typography>To Do</Typography>
                                     <Paper className={classes.paper}>
-
+                                      <List>
+                                        <Cards/>
+                                      </List>
                                     </Paper>
                                 </Grid>
                                 <Grid item xs={3}>
                                     <Typography>In Progress</Typography>
-                                    <Paper className={classes.paper} />
+                                    <Paper className={classes.paper}>
+                                      <List>
+                                        
+                                      </List>
+                                    </Paper>
                                 </Grid>
                                 <Grid item xs={3}>
                                     <Typography>Review</Typography>
-                                    <Paper className={classes.paper} />
+                                    <Paper className={classes.paper}>
+                                      <List>
+                                        
+                                      </List>
+                                    </Paper>
                                 </Grid>
                                 <Grid item xs={3}>
                                     <Typography>Done</Typography>
-                                    <Paper className={classes.paper} />
+                                    <Paper className={classes.paper}>
+                                      <List>
+                                        
+                                      </List>
+                                    </Paper>
                                 </Grid>
                             </Grid>
                         </Grid>
