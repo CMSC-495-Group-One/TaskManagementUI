@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import clsx from 'clsx';
 import {
     makeStyles,
@@ -32,6 +32,7 @@ import Cards from './cards';
 import TaskService from '../../services/TaskService';
 import { useAuth } from "../../context/AuthProvider";
 import { useNavigate } from 'react-router-dom';
+import { groupBy } from 'lodash';
 
 function Copyright() {
     return (
@@ -118,8 +119,8 @@ const useStyles = makeStyles((theme) => ({
     },
     paper: {
         padding: theme.spacing(2),
-        height: 720,
-        width: 270,
+        height: '75vh',
+        width: '28vh',
         display: 'flex',
         overflow: 'auto',
         flexDirection: 'column',
@@ -132,6 +133,36 @@ const useStyles = makeStyles((theme) => ({
 export default function Tasks() {
     const classes = useStyles();
 
+    const [tasks, setTasks] = useState([]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const tasksData = await TaskService.getTasks();
+                setTasks(tasksData);  // fetched tasks not grouped yet
+                console.log('All tasks NOT grouped:', tasksData);
+            } catch (error) {
+                console.error('Error getting all tasks:', error);
+            }
+        };
+        fetchData();
+    }, []);
+
+    // All possible task statuses
+    const possibleStatuses = ['TO_DO', 'IN_PROGRESS', 'REVIEW', 'DONE']; 
+
+    // Initialize tasksByStatus object with empty arrays for all possible statuses
+    const initialTasksByStatus = possibleStatuses.reduce((acc, status) => {
+        acc[status] = [];
+        return acc;
+    }, {});    
+    
+    // Use lodash to group tasks by status
+    const groupedTasks = groupBy(tasks, 'status');
+
+    // Merge grouped tasks with the initialTasksByStatus to ensure all swimlanes are shown
+    const tasksByStatus = { ...initialTasksByStatus, ...groupedTasks };    
+    
     const { signIn, user } = useAuth();
     const navigate = useNavigate();
 
@@ -268,38 +299,20 @@ export default function Tasks() {
                     <Grid container spacing={3}>
                         <Grid item xs={12}>
                             <Grid container justifyContent="center" spacing={6}>
-                                <Grid item xs={3}>
-                                    <Typography>To Do</Typography>
-                                    <Paper className={classes.paper}>
-                                      <List>
-                                        <Cards/>
-                                      </List>
-                                    </Paper>
-                                </Grid>
-                                <Grid item xs={3}>
-                                    <Typography>In Progress</Typography>
-                                    <Paper className={classes.paper}>
-                                      <List>
-                                        
-                                      </List>
-                                    </Paper>
-                                </Grid>
-                                <Grid item xs={3}>
-                                    <Typography>Review</Typography>
-                                    <Paper className={classes.paper}>
-                                      <List>
-                                        
-                                      </List>
-                                    </Paper>
-                                </Grid>
-                                <Grid item xs={3}>
-                                    <Typography>Done</Typography>
-                                    <Paper className={classes.paper}>
-                                      <List>
-                                        
-                                      </List>
-                                    </Paper>
-                                </Grid>
+                                {/* Iterate over all possible statuses and display them */}
+                                {possibleStatuses.map((status) => (
+                                    <Grid key={status} item xs={3}>
+                                        <Typography>{status}</Typography>
+                                        <Paper className={classes.paper}>
+                                            <List>
+                                                {/* Render each task in the current status group */}
+                                                {tasksByStatus[status].map((task) => (
+                                                    <Cards key={task.id} task={task} />
+                                                ))}
+                                            </List>
+                                        </Paper>
+                                    </Grid>
+                                ))}
                             </Grid>
                         </Grid>
                     </Grid>
