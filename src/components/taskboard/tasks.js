@@ -118,8 +118,8 @@ const useStyles = makeStyles((theme) => ({
     },
     paper: {
         padding: theme.spacing(2),
-        height: 720,
-        width: 270,
+        height: '75vh',
+        width: '28vh',
         display: 'flex',
         overflow: 'auto',
         flexDirection: 'column',
@@ -272,7 +272,17 @@ export default function Tasks() {
                                     <Typography>To Do</Typography>
                                     <Paper className={classes.paper}>
                                       <List>
-                                        <Cards/>
+                                        <Cards
+                                            title={title}
+                                            description={description}
+                                            difficulty={difficulty}
+                                            status={status}
+                                            onTitleChange={(e) => setTitle(e.target.value)}
+                                            onDescriptionChange={(e) => setDescription(e.target.value)}
+                                            onDifficultyChange={(e) => setDifficulty(e.target.value)}
+                                            onStatusChange={(e) => setStatus(e.target.value)}
+                                        />
+                                        
                                       </List>
                                     </Paper>
                                 </Grid>

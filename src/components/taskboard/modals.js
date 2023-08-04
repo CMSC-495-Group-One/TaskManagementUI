@@ -36,6 +36,7 @@ export default function Modal({ title, description, difficulty, status,
                     label="Task Title"
                     type="Title"
                     fullWidth
+                    multiline="true"
                     value={title}
                     onChange={onTitleChange}
                 />
@@ -46,6 +47,8 @@ export default function Modal({ title, description, difficulty, status,
                     label="Task Description"
                     type="Description"
                     fullWidth
+                    multiline="true"
+                    minRows="3"
                     value={description}
                     onChange={onDescriptionChange}
                 />
