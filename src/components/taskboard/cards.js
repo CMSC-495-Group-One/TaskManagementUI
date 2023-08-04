@@ -14,25 +14,17 @@ import Modal from './modals';
 
 const useStyles = makeStyles({
   root: {
-    // minWidth: 230,
-    // maxHeight: 150,
-    width: '25vh',
-    maxHeight: '16vh',    
-  },
-  bullet: {
-    display: 'inline-block',
-    margin: '0 2px',
-    transform: 'scale(0.8)',
-  },
-  title: {
-    fontSize: 14,
+    maxwidth: '25vh',
+    maxHeight: '16vh',
+    display: 'flex',
   },
   pos: {
     marginBottom: 12,
   },
 });
 
-export default function Cards() {
+export default function Cards({ title, description, difficulty, status, 
+  onTitleChange, onDescriptionChange, onDifficultyChange, onStatusChange }) {
   const classes = useStyles();
 
   const [showModal, setShowModal]= React.useState(false);
@@ -48,26 +40,33 @@ export default function Cards() {
     <Card className={classes.root}>
       <CardActionArea onClick={handleClickOpen}>
           <CardContent>
-            <Typography className={classes.title} color="textSecondary" gutterBottom>
-              Word of the Day
+            <Typography className={classes.title} color="textSecondary" variant="h6" gutterBottom>
+              {title}
             </Typography>
-            <Typography className={classes.pos} color="textSecondary">
-              adjective
+            <Typography className={classes.pos} color="textSecondary" variant="body1" gutterBottom>
+              Task Description: {description}
             </Typography>
             <Typography variant="body2" component="p">
-              well meaning and kindly.
-              <br />
-              {'"a benevolent smile"'}
+              Difficulty: {difficulty}
             </Typography>
           </CardContent>
       </CardActionArea>
       <Dialog open={showModal} onClose={handleClose} aria-labelledby="form-dialog-title">
-          <Modal/>
-          <DialogActions>
-            <Button onClick={handleClose} color="primary">
-              Publish
-            </Button>
-          </DialogActions>
+        <Modal
+         title={title}
+         description={description}
+         difficulty={difficulty}
+         status={status}
+         onTitleChange={(e) => setTitle(e.target.value)}
+         onDescriptionChange={(e) => setDescription(e.target.value)}
+         onDifficultyChange={(e) => setDifficulty(e.target.value)}
+         onStatusChange={(e) => setStatus(e.target.value)}
+         />
+        <DialogActions>
+          <Button onClick={handleClose} color="primary">
+            Publish
+          </Button>
+        </DialogActions>
       </Dialog>
     </Card>
   );
