@@ -21,8 +21,8 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function Modal({ title, description, difficulty, onTitleChange,
-    onDescriptionChange, onDifficultyChange }) {
+export default function Modal({ title, description, difficulty, status, 
+    onTitleChange, onDescriptionChange, onDifficultyChange, onStatusChange }) {
     const classes = useStyles();
 
     return (
@@ -36,6 +36,7 @@ export default function Modal({ title, description, difficulty, onTitleChange,
                     label="Task Title"
                     type="Title"
                     fullWidth
+                    multiline
                     value={title}
                     onChange={onTitleChange}
                 />
@@ -46,6 +47,8 @@ export default function Modal({ title, description, difficulty, onTitleChange,
                     label="Task Description"
                     type="Description"
                     fullWidth
+                    multiline
+                    minRows="3"
                     value={description}
                     onChange={onDescriptionChange}
                 />
@@ -60,6 +63,20 @@ export default function Modal({ title, description, difficulty, onTitleChange,
                         <MenuItem value={"EASY"}>Easy</MenuItem>
                         <MenuItem value={"MEDIUM"}>Medium</MenuItem>
                         <MenuItem value={"HARD"}>Hard</MenuItem>
+                    </Select>
+                </FormControl>
+                <FormControl className={classes.formControl}>
+                    <InputLabel id="demo-simple-select-label">Status</InputLabel>
+                    <Select
+                      labelId="demo-simple-select-label"
+                      id="demo-simple-select"
+                      value={status}
+                      onChange={onStatusChange}
+                    >
+                      <MenuItem value={"TO_DO"}>To Do</MenuItem>
+                      <MenuItem value={"IN_PROGRESS"}>In Progress</MenuItem>
+                      <MenuItem value={"REVIEW"}>Review</MenuItem>
+                      <MenuItem value={"DONE"}>Done</MenuItem>
                     </Select>
                 </FormControl>
             </DialogContent>

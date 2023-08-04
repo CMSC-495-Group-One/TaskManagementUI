@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import clsx from 'clsx';
 import {
     makeStyles,
@@ -28,9 +28,11 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import { mainListItems } from './listItems';
 import Modal from './modals';
+import Cards from './cards';
 import TaskService from '../../services/TaskService';
 import { useAuth } from "../../context/AuthProvider";
 import { useNavigate } from 'react-router-dom';
+import { groupBy } from 'lodash';
 
 function Copyright() {
     return (
@@ -117,8 +119,8 @@ const useStyles = makeStyles((theme) => ({
     },
     paper: {
         padding: theme.spacing(2),
-        height: 720,
-        width: 270,
+        height: '75vh',
+        width: '28vh',
         display: 'flex',
         overflow: 'auto',
         flexDirection: 'column',
@@ -131,6 +133,37 @@ const useStyles = makeStyles((theme) => ({
 export default function Tasks() {
     const classes = useStyles();
 
+    const [tasks, setTasks] = useState([]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const tasksData = await TaskService.getTasks();
+                setTasks(tasksData);  // fetched tasks not grouped yet
+                console.log('All tasks NOT grouped:', tasksData);
+                console.log('DueDate?', setDueDate());
+            } catch (error) {
+                console.error('Error getting all tasks:', error);
+            }
+        };
+        fetchData();
+    }, []);
+
+    // All possible task statuses
+    const possibleStatuses = ['TO_DO', 'IN_PROGRESS', 'REVIEW', 'DONE']; 
+
+    // Initialize tasksByStatus object with empty arrays for all possible statuses
+    const initialTasksByStatus = possibleStatuses.reduce((acc, status) => {
+        acc[status] = [];
+        return acc;
+    }, {});    
+    
+    // Use lodash to group tasks by status
+    const groupedTasks = groupBy(tasks, 'status');
+
+    // Merge grouped tasks with the initialTasksByStatus to ensure all swimlanes are shown
+    const tasksByStatus = { ...initialTasksByStatus, ...groupedTasks };    
+    
     const { signIn, user } = useAuth();
     const navigate = useNavigate();
 
@@ -153,18 +186,27 @@ export default function Tasks() {
         setTitle('');
         setDescription('');
         setDifficulty('');
+        setStatus('');
     };
 
     // State to store the task data
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [difficulty, setDifficulty] = useState('');
+    const [status, setStatus] = useState('');
+
+    // For now, auto set dueDate to 1 week from creation
+    const setDueDate = () => {
+        const currentDate = new Date();
+        const dueDate = new Date();
+        dueDate.setDate(currentDate.getDate() + 7);
+        return dueDate;
+    };
 
     const handleCreateTask = async () => {
         //If not authenticated send to sign-in page
         !user && navigate("/sign-in");
-        console.log({ user });
-
+        // console.log({ user });
 
         // If user is authenticated create JSON object in the shape of TaskDto.java
         const taskDto = {
@@ -172,7 +214,8 @@ export default function Tasks() {
             title: title,
             description: description,
             difficulty: difficulty,
-            status: "TO_DO"
+            status: status,
+            dueDate: setDueDate()
         };
 
         // Send the POST request to backend endpoint using TaskService and close modal
@@ -185,6 +228,10 @@ export default function Tasks() {
             setTitle('');
             setDescription('');
             setDifficulty('');
+            setStatus('');
+
+            // Refresh page after user publishes task
+            window.location.reload();
 
         } catch (error) {
             console.error('Error creating task:', error);
@@ -244,9 +291,11 @@ export default function Tasks() {
                         title={title}
                         description={description}
                         difficulty={difficulty}
+                        status={status}
                         onTitleChange={(e) => setTitle(e.target.value)}
                         onDescriptionChange={(e) => setDescription(e.target.value)}
                         onDifficultyChange={(e) => setDifficulty(e.target.value)}
+                        onStatusChange={(e) => setStatus(e.target.value)}
                     />
                     <DialogActions>
                         <Button onClick={handleClose} color="primary">
@@ -262,24 +311,20 @@ export default function Tasks() {
                     <Grid container spacing={3}>
                         <Grid item xs={12}>
                             <Grid container justifyContent="center" spacing={6}>
-                                <Grid item xs={3}>
-                                    <Typography>To Do</Typography>
-                                    <Paper className={classes.paper}>
-
-                                    </Paper>
-                                </Grid>
-                                <Grid item xs={3}>
-                                    <Typography>In Progress</Typography>
-                                    <Paper className={classes.paper} />
-                                </Grid>
-                                <Grid item xs={3}>
-                                    <Typography>Review</Typography>
-                                    <Paper className={classes.paper} />
-                                </Grid>
-                                <Grid item xs={3}>
-                                    <Typography>Done</Typography>
-                                    <Paper className={classes.paper} />
-                                </Grid>
+                                {/* Iterate over all possible statuses and display them */}
+                                {possibleStatuses.map((status) => (
+                                    <Grid key={status} item xs={3}>
+                                        <Typography>{status}</Typography>
+                                        <Paper className={classes.paper}>
+                                            <List>
+                                                {/* Render each task in the current status group */}
+                                                {tasksByStatus[status].map((task) => (
+                                                    <Cards key={task.id} task={task} />
+                                                ))}
+                                            </List>
+                                        </Paper>
+                                    </Grid>
+                                ))}
                             </Grid>
                         </Grid>
                     </Grid>
