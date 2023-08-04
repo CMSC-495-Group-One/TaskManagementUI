@@ -141,6 +141,7 @@ export default function Tasks() {
                 const tasksData = await TaskService.getTasks();
                 setTasks(tasksData);  // fetched tasks not grouped yet
                 console.log('All tasks NOT grouped:', tasksData);
+                console.log('DueDate?', setDueDate());
             } catch (error) {
                 console.error('Error getting all tasks:', error);
             }
@@ -194,11 +195,18 @@ export default function Tasks() {
     const [difficulty, setDifficulty] = useState('');
     const [status, setStatus] = useState('');
 
+    // For now, auto set dueDate to 1 week from creation
+    const setDueDate = () => {
+        const currentDate = new Date();
+        const dueDate = new Date();
+        dueDate.setDate(currentDate.getDate() + 7);
+        return dueDate;
+    };
+
     const handleCreateTask = async () => {
         //If not authenticated send to sign-in page
         !user && navigate("/sign-in");
-        console.log({ user });
-
+        // console.log({ user });
 
         // If user is authenticated create JSON object in the shape of TaskDto.java
         const taskDto = {
@@ -206,7 +214,8 @@ export default function Tasks() {
             title: title,
             description: description,
             difficulty: difficulty,
-            status: "TO_DO"
+            status: status,
+            dueDate: setDueDate()
         };
 
         // Send the POST request to backend endpoint using TaskService and close modal
@@ -220,6 +229,9 @@ export default function Tasks() {
             setDescription('');
             setDifficulty('');
             setStatus('');
+
+            // Refresh page after user publishes task
+            window.location.reload();
 
         } catch (error) {
             console.error('Error creating task:', error);

@@ -15,7 +15,7 @@ import Modal from './modals';
 const useStyles = makeStyles({
   root: {
     maxwidth: '25vh',
-    maxHeight: '16vh',
+    maxHeight: '20vh',
     display: 'flex',
   },
   pos: {
@@ -23,9 +23,10 @@ const useStyles = makeStyles({
   },
 });
 
-export default function Cards({ title, description, difficulty, status, 
-  onTitleChange, onDescriptionChange, onDifficultyChange, onStatusChange }) {
+export default function Cards({ task }) {
   const classes = useStyles();
+
+  const { title, description, difficulty, status } = task;
 
   const [showModal, setShowModal]= React.useState(false);
   const handleClickOpen = () => {
@@ -44,10 +45,10 @@ export default function Cards({ title, description, difficulty, status,
               {title}
             </Typography>
             <Typography className={classes.pos} color="textSecondary" variant="body1" gutterBottom>
-              Task Description: {description}
+              {description}
             </Typography>
             <Typography variant="body2" component="p">
-              Difficulty: {difficulty}
+              {difficulty}
             </Typography>
           </CardContent>
       </CardActionArea>
