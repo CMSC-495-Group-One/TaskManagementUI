@@ -39,18 +39,7 @@ export default function Cards({ task, currId}) {
 
   return (
     <Card className={classes.root}>
-      <CardActionArea onClick={handleClickOpen}>
-        <div className={classes.content}>
-          <Typography color="textSecondary" variant="h6" gutterBottom>
-            {title}
-          </Typography>
-          <Typography color="textSecondary" variant="body1" gutterBottom>
-            {description}
-          </Typography>
-          <Typography variant="body2" component="p">
-            {difficulty}
-          </Typography>
-        </div>          
+      <CardActionArea onClick={handleClickOpen}>       
         <div className={classes.content}>
           <Typography color="textSecondary" variant="h6" gutterBottom>
             {title}
