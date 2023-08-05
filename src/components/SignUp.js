@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useForm, Controller} from 'react-hook-form';
 import InputField from './InputField';
 import http from '../services/HttpService';
@@ -63,6 +63,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SignUp() {
+
+    //Remove the access token from localStorage
+    useEffect(() => {
+        if(localStorage.getItem('accessToken')){
+            localStorage.removeItem('accessToken');
+        }
+    }, []);
+
     const classes = useStyles();
     const {handleSubmit, control, formState: {errors}, getValues} = useForm();
 
@@ -214,7 +222,7 @@ export default function SignUp() {
                     </Button>
                     <Grid container justifyContent="flex-end">
                         <Grid item>
-                            <Link href="/sign-in" variant="body2">
+                            <Link href="/SignIn" variant="body2">
                                 Already have an account? Sign in
                             </Link>
                         </Grid>

@@ -1,5 +1,5 @@
 import { Route, Routes as _Routes } from "react-router-dom";
-import SignInForm from "../sign-in";
+import SignInForm from "../SignIn";
 import Tasks from "../taskboard/tasks";
 import { PrivateRoutes } from "./private-routes";
 import SignUp from "../SignUp";
