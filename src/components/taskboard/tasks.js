@@ -33,6 +33,7 @@ import TaskService from '../../services/TaskService';
 import { useAuth } from "../../context/AuthProvider";
 import { useNavigate } from 'react-router-dom';
 import { groupBy } from 'lodash';
+import UserService from '../../services/UserService';
 
 function Copyright() {
     return (
@@ -142,6 +143,9 @@ export default function Tasks() {
                 setTasks(tasksData);  // fetched tasks not grouped yet
                 console.log('All tasks NOT grouped:', tasksData);
                 console.log('DueDate?', setDueDate());
+
+                const listUsers = await UserService.getUsers();
+                console.log('All users:', listUsers);
             } catch (error) {
                 console.error('Error getting all tasks:', error);
             }

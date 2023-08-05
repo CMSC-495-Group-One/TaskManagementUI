@@ -15,12 +15,10 @@ import Modal from './modals';
 const useStyles = makeStyles({
   root: {
     maxwidth: '25vh',
-    maxHeight: '20vh',
-    display: 'flex',
   },
-  pos: {
-    marginBottom: 12,
-  },
+  content: {
+    padding: '16px',
+  },  
 });
 
 export default function Cards({ task }) {
@@ -40,17 +38,17 @@ export default function Cards({ task }) {
   return (
     <Card className={classes.root}>
       <CardActionArea onClick={handleClickOpen}>
-          <CardContent>
-            <Typography className={classes.title} color="textSecondary" variant="h6" gutterBottom>
-              {title}
-            </Typography>
-            <Typography className={classes.pos} color="textSecondary" variant="body1" gutterBottom>
-              {description}
-            </Typography>
-            <Typography variant="body2" component="p">
-              {difficulty}
-            </Typography>
-          </CardContent>
+        <div className={classes.content}>
+          <Typography color="textSecondary" variant="h6" gutterBottom>
+            {title}
+          </Typography>
+          <Typography color="textSecondary" variant="body1" gutterBottom>
+            {description}
+          </Typography>
+          <Typography variant="body2" component="p">
+            {difficulty}
+          </Typography>
+        </div>          
       </CardActionArea>
       <Dialog open={showModal} onClose={handleClose} aria-labelledby="form-dialog-title">
         <Modal
