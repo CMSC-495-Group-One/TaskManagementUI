@@ -11,6 +11,8 @@ import {
     Typography,
     Divider,
     IconButton,
+    Menu,
+    MenuItem,
     Badge,
     Container,
     Grid,
@@ -25,7 +27,7 @@ import {
 } from "@material-ui/core"
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import NotificationsIcon from '@material-ui/icons/Notifications';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import { mainListItems } from './listItems';
 import Modal from './modals';
 import Cards from './cards';
@@ -179,6 +181,22 @@ export default function Tasks() {
         setOpen(false);
     };
 
+    const [anchorEl, setAnchorEl] = React.useState(null);
+
+    const handleProfileOpen = (event) => {
+      setAnchorEl(event.currentTarget);
+    };
+  
+    const handleProfileClose = () => {
+      setAnchorEl(null);
+    };
+
+    const handleLogout = () => {
+        setAnchorEl(null);
+        localStorage.clear();
+        navigate("/sign-in");
+      };
+
     const [showModal, setShowModal] = useState(false);
     const handleClickOpen = () => {
         setShowModal(true);
@@ -261,11 +279,18 @@ export default function Tasks() {
                     <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
                         Task Management Board
                     </Typography>
-                    <IconButton color="inherit">
-                        <Badge badgeContent={4} color="secondary" overlap="rectangular">
-                            <NotificationsIcon />
-                        </Badge>
+                    <IconButton color="inherit" aria-controls="simple-menu" aria-haspopup="true" onClick={handleProfileOpen}>
+                        <AccountCircleIcon fontSize="large" />
                     </IconButton>
+                    <Menu
+                        id="simple-menu"
+                        anchorEl={anchorEl}
+                        keepMounted
+                        open={Boolean(anchorEl)}
+                        onClose={handleProfileClose}
+                    >
+                        <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                    </Menu>
                 </Toolbar>
             </AppBar>
             <Drawer
@@ -300,6 +325,7 @@ export default function Tasks() {
                         onDescriptionChange={(e) => setDescription(e.target.value)}
                         onDifficultyChange={(e) => setDifficulty(e.target.value)}
                         onStatusChange={(e) => setStatus(e.target.value)}
+                        readOnlyBool={false}
                     />
                     <DialogActions>
                         <Button onClick={handleClose} color="primary">
@@ -323,7 +349,7 @@ export default function Tasks() {
                                             <List>
                                                 {/* Render each task in the current status group */}
                                                 {tasksByStatus[status].map((task) => (
-                                                    <Cards key={task.id} task={task} />
+                                                    <Cards key={task.id} task={task} currId={user.userId} />
                                                 ))}
                                             </List>
                                         </Paper>

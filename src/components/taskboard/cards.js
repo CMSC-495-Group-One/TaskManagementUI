@@ -21,10 +21,12 @@ const useStyles = makeStyles({
   },  
 });
 
-export default function Cards({ task }) {
+export default function Cards({ task, currId}) {
   const classes = useStyles();
 
-  const { title, description, difficulty, status } = task;
+  const { title, description, difficulty, status, userId } = task;
+  
+  let bool = (userId != currId) ? true : false;
 
   const [showModal, setShowModal]= React.useState(false);
   const handleClickOpen = () => {
@@ -49,6 +51,17 @@ export default function Cards({ task }) {
             {difficulty}
           </Typography>
         </div>          
+        <div className={classes.content}>
+          <Typography color="textSecondary" variant="h6" gutterBottom>
+            {title}
+          </Typography>
+          <Typography color="textSecondary" variant="body1" gutterBottom>
+            {description}
+          </Typography>
+          <Typography variant="body2" component="p">
+            {difficulty}
+          </Typography>
+        </div>          
       </CardActionArea>
       <Dialog open={showModal} onClose={handleClose} aria-labelledby="form-dialog-title">
         <Modal
@@ -60,10 +73,14 @@ export default function Cards({ task }) {
          onDescriptionChange={(e) => setDescription(e.target.value)}
          onDifficultyChange={(e) => setDifficulty(e.target.value)}
          onStatusChange={(e) => setStatus(e.target.value)}
+         readOnlyBool={bool}
          />
         <DialogActions>
           <Button onClick={handleClose} color="primary">
-            Publish
+            Cancel
+          </Button>
+          <Button onClick={handleClose} color="primary">
+            Update
           </Button>
         </DialogActions>
       </Dialog>
