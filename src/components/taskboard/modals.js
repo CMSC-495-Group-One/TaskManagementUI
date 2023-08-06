@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Modal({ title, description, difficulty, status, 
-    onTitleChange, onDescriptionChange, onDifficultyChange, onStatusChange }) {
+    onTitleChange, onDescriptionChange, onDifficultyChange, onStatusChange, fieldDisabled }) {
     const classes = useStyles();
 
     return (
@@ -31,26 +31,28 @@ export default function Modal({ title, description, difficulty, status,
             <DialogContent>
                 <TextField
                     autoFocus
+                    required
                     margin="dense"
                     id="name"
                     label="Task Title"
-                    type="Title"
                     fullWidth
                     multiline
                     value={title}
                     onChange={onTitleChange}
+                    disabled={fieldDisabled}
                 />
                 <TextField
                     autoFocus
+                    required
                     margin="dense"
                     id="name"
                     label="Task Description"
-                    type="Description"
                     fullWidth
                     multiline
                     minRows="3"
                     value={description}
                     onChange={onDescriptionChange}
+                    disabled={fieldDisabled}
                 />
                 <FormControl className={classes.formControl}>
                     <InputLabel id="demo-simple-select-label">Difficulty</InputLabel>
@@ -59,6 +61,7 @@ export default function Modal({ title, description, difficulty, status,
                         id="demo-simple-select"
                         value={difficulty}
                         onChange={onDifficultyChange}
+                        disabled={fieldDisabled}
                     >
                         <MenuItem value={"EASY"}>Easy</MenuItem>
                         <MenuItem value={"MEDIUM"}>Medium</MenuItem>
@@ -68,10 +71,12 @@ export default function Modal({ title, description, difficulty, status,
                 <FormControl className={classes.formControl}>
                     <InputLabel id="demo-simple-select-label">Status</InputLabel>
                     <Select
+                      required
                       labelId="demo-simple-select-label"
                       id="demo-simple-select"
                       value={status}
                       onChange={onStatusChange}
+                      disabled={fieldDisabled}
                     >
                       <MenuItem value={"TO_DO"}>To Do</MenuItem>
                       <MenuItem value={"IN_PROGRESS"}>In Progress</MenuItem>
