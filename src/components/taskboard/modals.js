@@ -31,10 +31,10 @@ export default function Modal({ title, description, difficulty, status,
             <DialogContent>
                 <TextField
                     autoFocus
+                    required
                     margin="dense"
                     id="name"
                     label="Task Title"
-                    type="Title"
                     fullWidth
                     multiline
                     value={title}
@@ -43,10 +43,10 @@ export default function Modal({ title, description, difficulty, status,
                 />
                 <TextField
                     autoFocus
+                    required
                     margin="dense"
                     id="name"
                     label="Task Description"
-                    type="Description"
                     fullWidth
                     multiline
                     minRows="3"
@@ -71,6 +71,7 @@ export default function Modal({ title, description, difficulty, status,
                 <FormControl className={classes.formControl}>
                     <InputLabel id="demo-simple-select-label">Status</InputLabel>
                     <Select
+                      required
                       labelId="demo-simple-select-label"
                       id="demo-simple-select"
                       value={status}

@@ -26,7 +26,7 @@ const useStyles = makeStyles({
   },  
 });
 
-export default function Cards({ task }) {
+export default function Cards({ task, currId}) {
   const classes = useStyles();
   const { signIn, user } = useAuth();
 
@@ -92,7 +92,7 @@ export default function Cards({ task }) {
 
   return (
     <Card className={classes.root}>
-      <CardActionArea onClick={handleClickOpen}>
+      <CardActionArea onClick={handleClickOpen}>       
         <div className={classes.content}>
           <Typography color="textSecondary" variant="h6" gutterBottom>
             {title}
@@ -130,7 +130,10 @@ export default function Cards({ task }) {
          />
         <DialogActions>
           <Button onClick={handleClose} color="primary">
-            Publish
+            Cancel
+          </Button>
+          <Button onClick={handleClose} color="primary">
+            Update
           </Button>
         </DialogActions>
       </Dialog>
