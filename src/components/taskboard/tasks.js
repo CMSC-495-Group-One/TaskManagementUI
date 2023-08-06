@@ -133,6 +133,8 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Tasks() {
     const classes = useStyles();
+    const { signIn, user } = useAuth();
+    const navigate = useNavigate();
 
     const [tasks, setTasks] = useState([]);
 
@@ -168,9 +170,6 @@ export default function Tasks() {
     // Merge grouped tasks with the initialTasksByStatus to ensure all swimlanes are shown
     const tasksByStatus = { ...initialTasksByStatus, ...groupedTasks };    
     
-    const { signIn, user } = useAuth();
-    const navigate = useNavigate();
-
     const [open, setOpen] = useState(true);
     const handleDrawerOpen = () => {
         setOpen(true);
