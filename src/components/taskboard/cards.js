@@ -126,6 +126,7 @@ export default function Cards({ task }) {
          onDescriptionChange={(e) => setDescription(e.target.value)}
          onDifficultyChange={(e) => setDifficulty(e.target.value)}
          onStatusChange={(e) => setStatus(e.target.value)}
+         fieldDisabled={true}
          />
         <DialogActions>
           <Button onClick={handleClose} color="primary">
