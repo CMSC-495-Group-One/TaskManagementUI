@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect } from "react";
 import {useForm} from "react-hook-form";
 import {useAuth} from "../context";
 import InputField from "./InputField";
@@ -43,6 +43,14 @@ function Copyright() {
 }
 
 export default function SignInForm() {
+
+    //Remove the access token from localStorage
+    useEffect(() => {
+        if(localStorage.getItem('accessToken')){
+            localStorage.removeItem('accessToken');
+        }
+    }, []);
+
     const classes = useStyles();
     const formMethods = useForm();
     const {signIn} = useAuth();
@@ -66,8 +74,13 @@ export default function SignInForm() {
             navigate("/tasks");
         } catch (error) {
             setIsLoading(false);
+            console.error('Error signing up:', error.response.data.message);
             // handle error, e.g. show a message to the user
-            setLoginError("Invalid username or password.");
+            if (error.response.data.message.includes('Bad credentials')){
+                setLoginError("Invalid Username or Password");
+            } else {
+                setLoginError(error.response.data.message);
+            }
         }
     };
 
