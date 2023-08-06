@@ -310,7 +310,7 @@ export default function Tasks() {
             </Drawer>
             <main className={classes.content}>
                 <div className={classes.appBarSpacer} />
-                <Button variant="contained" color="primary" onClick={handleClickOpen}>
+                <Button variant="contained" color="primary" onClick={handleClickOpen} >
                     Add Task
                 </Button>
 
@@ -325,6 +325,7 @@ export default function Tasks() {
                         onDifficultyChange={(e) => setDifficulty(e.target.value)}
                         onStatusChange={(e) => setStatus(e.target.value)}
                         fieldDisabled={false}
+                        dialogTitle={"Add Task"}
                     />
                     <DialogActions>
                         <Button onClick={handleClose} color="primary">

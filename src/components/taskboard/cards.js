@@ -4,11 +4,12 @@ import {
     Card,
     CardActionArea,
     CardActions,
-    CardContent,
     Button,
     Typography,
     DialogActions,
-    Dialog
+    Dialog,
+    DialogContent,
+    DialogContentText
 } from '@material-ui/core'
 import Modal from './modals';
 import { useAuth } from '../../context/AuthProvider';
@@ -20,6 +21,7 @@ import TaskService from '../../services/TaskService';
 const useStyles = makeStyles({
   root: {
     maxwidth: '25vh',
+    margin: '10px 0',
   },
   content: {
     padding: '16px',
@@ -34,6 +36,7 @@ export default function Cards({ task, currId}) {
 
   const [showModal, setShowModal]= useState(false);
   const [showEditModal, setShowEditModal] = useState(false); // Add state for the edit modal
+  const [showDelete, setShowDelete]= React.useState(false); // Add state for delete modal
 
   const handleClickOpen = () => {
     setShowModal(true);
@@ -49,6 +52,14 @@ export default function Cards({ task, currId}) {
 
   const handleEditModalClose = () => {
     setShowEditModal(false);
+  };
+
+  const handleDeleteOpen = () => {
+    setShowDelete(true);
+  };
+
+  const handleDeleteClose = () => {
+    setShowDelete(false);
   };
 
   const handleEditTask = async (updatedTask) => {
@@ -91,7 +102,7 @@ export default function Cards({ task, currId}) {
   };
 
   return (
-    <Card className={classes.root}>
+    <Card className={classes.root} variant="outlined">
       <CardActionArea onClick={handleClickOpen}>       
         <div className={classes.content}>
           <Typography color="textSecondary" variant="h6" gutterBottom>
@@ -103,18 +114,7 @@ export default function Cards({ task, currId}) {
           <Typography variant="body2" component="p">
             {difficulty}
           </Typography>
-        </div>   
-        {/* Conditionally render the EditIcon */}
-        {user && user.userId === userId && (
-          <CardActions>
-            <Button size="small" color="primary" onClick={handleEditClick}>
-              <EditIcon />
-            </Button>
-            <Button size="small" color="secondary" onClick={handleDeleteTask}>
-              <DeleteIcon />
-            </Button>
-          </CardActions>
-        )}            
+        </div>             
       </CardActionArea>
       <Dialog open={showModal} onClose={handleClose} aria-labelledby="form-dialog-title">
         <Modal
@@ -127,19 +127,43 @@ export default function Cards({ task, currId}) {
          onDifficultyChange={(e) => setDifficulty(e.target.value)}
          onStatusChange={(e) => setStatus(e.target.value)}
          fieldDisabled={true}
+         dialogTitle={"Read Task"}
          />
         <DialogActions>
           <Button onClick={handleClose} color="primary">
             Cancel
-          </Button>
-          <Button onClick={handleClose} color="primary">
-            Update
           </Button>
         </DialogActions>
       </Dialog>
       {showEditModal && (
         <EditModal task={task} onClose={handleEditModalClose} onEdit={handleEditTask} />
       )}
+      {/* Conditionally render the EditIcon */}
+      {user && user.userId === userId && (
+          <CardActions>
+            <Button size="small" color="primary" onClick={handleEditClick}>
+              <EditIcon />
+            </Button>
+            <Button size="small" color="secondary" onClick={handleDeleteOpen}>
+              <DeleteIcon />
+            </Button>
+            <Dialog open={showDelete} onClose={handleDeleteClose}>
+              <DialogContent>
+                <DialogContentText>
+                  Are you sure you want to delete this task?
+                </DialogContentText>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={handleDeleteClose} color="primary">
+                  Cancel
+                </Button>
+                <Button onClick={handleDeleteTask} color="primary">
+                  Delete
+                </Button>
+              </DialogActions>
+            </Dialog>
+          </CardActions>
+        )}  
     </Card>
   );
 }

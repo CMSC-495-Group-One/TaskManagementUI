@@ -22,12 +22,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Modal({ title, description, difficulty, status, 
-    onTitleChange, onDescriptionChange, onDifficultyChange, onStatusChange, fieldDisabled }) {
+    onTitleChange, onDescriptionChange, onDifficultyChange, onStatusChange, fieldDisabled, dialogTitle }) {
     const classes = useStyles();
 
     return (
         <div>
-            <DialogTitle id="form-dialog-title">Add Task</DialogTitle>
+            <DialogTitle id="form-dialog-title">{dialogTitle}</DialogTitle>
             <DialogContent>
                 <TextField
                     autoFocus
