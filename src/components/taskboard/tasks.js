@@ -139,11 +139,11 @@ export default function Tasks() {
             try {
                 const tasksData = await TaskService.getTasks();
                 setTasks(tasksData);  // fetched tasks not grouped yet
-                console.log('All tasks NOT grouped:', tasksData);
-                console.log('DueDate?', setDueDate());
+                //console.log('All tasks NOT grouped:', tasksData);
+                //console.log('DueDate?', setDueDate());
 
                 const listUsers = await UserService.getUsers();
-                console.log('All users:', listUsers);
+                //console.log('All users:', listUsers);
             } catch (error) {
                 console.error('Error getting all tasks:', error);
             }
@@ -182,15 +182,15 @@ export default function Tasks() {
     const handleClose = () => {
         setShowModal(false);
         // Clear the input fields after clicking Cancel button
-        setTitle('');
-        setDescription('');
+        setTitle();
+        setDescription();
         setDifficulty('');
         setStatus('');
     };
 
     // State to store the task data
-    const [title, setTitle] = useState('');
-    const [description, setDescription] = useState('');
+    const [title, setTitle] = useState();
+    const [description, setDescription] = useState();
     const [difficulty, setDifficulty] = useState('');
     const [status, setStatus] = useState('');
 
@@ -224,8 +224,8 @@ export default function Tasks() {
             setShowModal(false);
 
             // Clear the input fields after successful task creation
-            setTitle('');
-            setDescription('');
+            setTitle();
+            setDescription();
             setDifficulty('');
             setStatus('');
 
@@ -290,8 +290,6 @@ export default function Tasks() {
 
                 <Dialog open={showModal} onClose={handleClose} aria-labelledby="form-dialog-title">
                     <Modal
-                        title={title}
-                        description={description}
                         difficulty={difficulty}
                         status={status}
                         onTitleChange={(e) => setTitle(e.target.value)}
