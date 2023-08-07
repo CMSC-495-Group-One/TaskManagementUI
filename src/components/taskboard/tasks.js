@@ -11,23 +11,17 @@ import {
     Typography,
     Divider,
     IconButton,
-    Menu,
-    MenuItem,
-    Badge,
     Container,
     Grid,
     Paper,
     Link,
     Button,
     Dialog,
-    DialogActions,
-    DialogContent,
-    DialogContentText,
-    DialogTitle
+    DialogActions
 } from "@material-ui/core"
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import ExitToAppOutlinedIcon from '@material-ui/icons/ExitToAppOutlined';
 import { mainListItems } from './listItems';
 import Modal from './modals';
 import Cards from './cards';
@@ -41,7 +35,7 @@ function Copyright() {
     return (
         <Typography variant="body2" color="textSecondary" align="center">
             {'Copyright © '}
-            <Link color="inherit" href="https://github.com/CMSC-495-Group-One/TaskManagementUI.gi">
+            <Link color="inherit" href="https://github.com/CMSC-495-Group-One/TaskManagementUI.git">
                 Git Repo
             </Link>{' '}
             {new Date().getFullYear()}
@@ -180,22 +174,6 @@ export default function Tasks() {
         setOpen(false);
     };
 
-    const [anchorEl, setAnchorEl] = React.useState(null);
-
-    const handleProfileOpen = (event) => {
-      setAnchorEl(event.currentTarget);
-    };
-  
-    const handleProfileClose = () => {
-      setAnchorEl(null);
-    };
-
-    const handleLogout = () => {
-        setAnchorEl(null);
-        localStorage.clear();
-        navigate("/sign-in");
-      };
-
     const [showModal, setShowModal] = useState(false);
     const handleClickOpen = () => {
         setShowModal(true);
@@ -259,7 +237,6 @@ export default function Tasks() {
         }
     };
 
-    const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
     return (
         <Box className={classes.root}>
@@ -278,18 +255,15 @@ export default function Tasks() {
                     <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
                         Task Management Board
                     </Typography>
-                    <IconButton color="inherit" aria-controls="simple-menu" aria-haspopup="true" onClick={handleProfileOpen}>
-                        <AccountCircleIcon fontSize="large" />
-                    </IconButton>
-                    <Menu
-                        id="simple-menu"
-                        anchorEl={anchorEl}
-                        keepMounted
-                        open={Boolean(anchorEl)}
-                        onClose={handleProfileClose}
-                    >
-                        <MenuItem onClick={handleLogout}>Logout</MenuItem>
-                    </Menu>
+                    <Button color="inherit" size="small" variant="outlined"
+                            endIcon={<ExitToAppOutlinedIcon/>}
+                            aria-label="Log Out"
+                            onClick={() => {
+                                localStorage.clear();
+                                navigate("/sign-in");
+                            }}>
+                        Log Out
+                    </Button>
                 </Toolbar>
             </AppBar>
             <Drawer
@@ -310,7 +284,7 @@ export default function Tasks() {
             </Drawer>
             <main className={classes.content}>
                 <div className={classes.appBarSpacer} />
-                <Button variant="contained" color="primary" onClick={handleClickOpen}>
+                <Button variant="contained" color="primary" onClick={handleClickOpen} >
                     Add Task
                 </Button>
 
@@ -325,6 +299,7 @@ export default function Tasks() {
                         onDifficultyChange={(e) => setDifficulty(e.target.value)}
                         onStatusChange={(e) => setStatus(e.target.value)}
                         fieldDisabled={false}
+                        dialogTitle={"Add Task"}
                     />
                     <DialogActions>
                         <Button onClick={handleClose} color="primary">
