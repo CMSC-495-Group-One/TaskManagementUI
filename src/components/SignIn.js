@@ -1,12 +1,12 @@
-import React, {useState, useEffect } from "react";
-import {useForm} from "react-hook-form";
-import {useAuth} from "../context";
+import React, { useState, useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { useAuth } from "../context";
 import InputField from "./InputField";
-import {useNavigate} from "react-router-dom";
-import {Avatar, Box,Button, Container, CssBaseline, Grid, IconButton, InputAdornment, Link, makeStyles,Typography } from "@material-ui/core";
-import { Visibility, VisibilityOff} from "@material-ui/icons";
+import { useNavigate } from "react-router-dom";
+import { Avatar, Box, Button, Container, CssBaseline, Grid, IconButton, InputAdornment, Link, makeStyles, Typography } from "@material-ui/core";
+import { Visibility, VisibilityOff } from "@material-ui/icons";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
-import {Alert} from "@material-ui/lab";
+import { Alert } from "@material-ui/lab";
 
 //Styling
 const useStyles = makeStyles((theme) => ({
@@ -46,20 +46,20 @@ export default function SignInForm() {
 
     //Remove the access token from localStorage
     useEffect(() => {
-        if(localStorage.getItem('accessToken')){
+        if (localStorage.getItem('accessToken')) {
             localStorage.removeItem('accessToken');
         }
     }, []);
 
     const classes = useStyles();
     const formMethods = useForm();
-    const {signIn} = useAuth();
+    const { signIn } = useAuth();
     const navigate = useNavigate();
 
     const {
         control,
         handleSubmit,
-        formState: {errors},
+        formState: { errors },
     } = formMethods;
 
     const [isLoading, setIsLoading] = useState(false);
@@ -76,7 +76,7 @@ export default function SignInForm() {
             setIsLoading(false);
             console.error('Error signing up:', error.response.data.message);
             // handle error, e.g. show a message to the user
-            if (error.response.data.message.includes('Bad credentials')){
+            if (error.response.data.message.includes('Bad credentials')) {
                 setLoginError("Invalid Username or Password");
             } else {
                 setLoginError(error.response.data.message);
@@ -93,10 +93,10 @@ export default function SignInForm() {
 
     return (
         <Container component="main" maxWidth="xs">
-            <CssBaseline/>
+            <CssBaseline />
             <div className={classes.paper}>
                 <Avatar className={classes.avatar}>
-                    <LockOutlinedIcon/>
+                    <LockOutlinedIcon />
                 </Avatar>
                 <Typography component="h1" variant="h5">
                     Sign In
@@ -106,7 +106,7 @@ export default function SignInForm() {
                         <Grid item xs={12}>
                             {/* Show user login error */}
                             {loginError && <Alert severity="error">{loginError}</Alert>}
-                            </Grid>
+                        </Grid>
                         <Grid item xs={12}>
                             <InputField
                                 name="username"
@@ -138,7 +138,7 @@ export default function SignInForm() {
                                                     onMouseDown={handleMouseDownPassword}
                                                     edge="end"
                                                 >
-                                                    {showPassword ? <VisibilityOff/> : <Visibility/>}
+                                                    {showPassword ? <VisibilityOff /> : <Visibility />}
                                                 </IconButton>
                                             </InputAdornment>
                                         )
@@ -167,7 +167,7 @@ export default function SignInForm() {
                 </form>
             </div>
             <Box mt={5}>
-                <Copyright/>
+                <Copyright />
             </Box>
         </Container>
     );

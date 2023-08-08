@@ -4,29 +4,29 @@ import TextField from '@material-ui/core/TextField';
 
 function InputField({ name, control, defaultValue, rules, label, autoComplete, type, InputProps,
     error, helperText }) {
-  return (
-    <Controller
-      name={name}
-      control={control}
-      defaultValue={defaultValue}
-      rules={rules}
+    return (
+        <Controller
+            name={name}
+            control={control}
+            defaultValue={defaultValue}
+            rules={rules}
 
-      render={({ field }) => (
-        <TextField
-          {...field}
-          autoComplete={autoComplete}
-          variant="outlined"
-          required
-          fullWidth
-          label={label}
-          error={error}
-          helperText={helperText}
-          type={type}
-          InputProps={InputProps}
+            render={({ field }) => (
+                <TextField
+                    {...field}
+                    autoComplete={autoComplete}
+                    variant="outlined"
+                    required
+                    fullWidth
+                    label={label}
+                    error={error}
+                    helperText={helperText}
+                    type={type}
+                    InputProps={InputProps}
+                />
+            )}
         />
-      )}
-    />
-  );
+    );
 }
 
 export default InputField;

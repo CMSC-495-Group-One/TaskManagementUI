@@ -4,9 +4,9 @@ import http from './HttpService'
 http.interceptors.request.use(
     (config) => {
         const token = localStorage.getItem('accessToken');
-        if(token) {
+        if (token) {
             config.headers[`Authorization`] = `Bearer ${token}`;
-        } 
+        }
         return config;
     },
     (error) => {
@@ -16,17 +16,17 @@ http.interceptors.request.use(
 
 const TaskService = {
     getTasks: async () => {
-        const response = await http.get('/tasks'); 
+        const response = await http.get('/tasks');
         return response.data;
     },
-    
+
     createTask: async (taskDto) => {
-        const response = await http.post('/tasks', taskDto);; 
+        const response = await http.post('/tasks', taskDto);;
         return response.data;
     },
 
     getTasksById: async (id) => {
-        const response = await http.get(`/tasks/${id}`);; 
+        const response = await http.get(`/tasks/${id}`);;
         return response.data;
     },
 
@@ -39,7 +39,7 @@ const TaskService = {
         const response = await http.delete(`/tasks/${id}`);
         return response.data;
     },
-   
+
 };
 
 export default TaskService;

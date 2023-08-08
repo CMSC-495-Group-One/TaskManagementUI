@@ -183,12 +183,12 @@ export default function Profile() {
                         User Information
                     </Typography>
                     <Button color="inherit" size="small" variant="outlined"
-                            endIcon={<ExitToAppOutlinedIcon/>}
-                            aria-label="Log Out"
-                            onClick={() => {
-                                localStorage.clear();
-                                navigate("/sign-in");
-                            }}>
+                        endIcon={<ExitToAppOutlinedIcon />}
+                        aria-label="Log Out"
+                        onClick={() => {
+                            localStorage.clear();
+                            navigate("/sign-in");
+                        }}>
                         Log Out
                     </Button>
                 </Toolbar>
@@ -235,8 +235,8 @@ export default function Profile() {
                             <h2 style={{ textAlign: 'left' }}>{`${userInfo.firstname} ${userInfo.lastname}`}</h2>
                             <p style={{ textAlign: 'left' }}>Username: {userInfo.username}</p>
                             <a href={`mailto:${userInfo.email}`} style={{ display: 'flex', alignItems: 'center', textDecoration: 'none', textAlign: 'left' }}
-                               title="Click to send email">
-                                 Email: {userInfo.email} <EmailIcon style={{ marginLeft: '5px' }} />
+                                title="Click to send email">
+                                Email: {userInfo.email} <EmailIcon style={{ marginLeft: '5px' }} />
                             </a>
                         </Box>
                     </Box>

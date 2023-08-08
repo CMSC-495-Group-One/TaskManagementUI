@@ -6,17 +6,17 @@ import { PrivateRoutes } from "./private-routes";
 import SignUp from "../SignUp";
 
 export const Routes = () => {
-  return (
-    <_Routes>
-      <Route element={<PrivateRoutes />}>
-        <Route path="/tasks" element={<Tasks />} />
-        <Route path="/profile" element={<Profile />} />
+    return (
+        <_Routes>
+            <Route element={<PrivateRoutes />}>
+                <Route path="/tasks" element={<Tasks />} />
+                <Route path="/profile" element={<Profile />} />
 
-      </Route>
+            </Route>
 
-      <Route path="/" element={<SignInForm />} />
-      <Route path="/sign-in" element={<SignInForm />} />
-      <Route path="/sign-up" element={<SignUp />} />
-    </_Routes>
-  );
+            <Route path="/" element={<SignInForm />} />
+            <Route path="/sign-in" element={<SignInForm />} />
+            <Route path="/sign-up" element={<SignUp />} />
+        </_Routes>
+    );
 };
