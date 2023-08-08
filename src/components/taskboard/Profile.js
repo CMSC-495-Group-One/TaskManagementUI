@@ -229,12 +229,12 @@ export default function Profile() {
                         <Box alignItems="flex-start">
                             <h2 style={{ textAlign: 'left' }}>{`${userInfo.firstname} ${userInfo.lastname}`}</h2>
                             <p style={{ textAlign: 'left' }}>Username: {userInfo.username}</p>
-                            <a href={`mailto:${userInfo.email}`} style={{ display: 'flex', alignItems: 'center', textDecoration: 'none', textAlign: 'left' }}>
-                                 {userInfo.email} <EmailIcon style={{ marginLeft: '5px' }} />
+                            <a href={`mailto:${userInfo.email}`} style={{ display: 'flex', alignItems: 'center', textDecoration: 'none', textAlign: 'left' }}
+                               title="Click to send email">
+                                 Email: {userInfo.email} <EmailIcon style={{ marginLeft: '5px' }} />
                             </a>
                         </Box>
                     </Box>
-
                 </Container>
             </main>
         </Box>
