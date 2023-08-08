@@ -1,9 +1,9 @@
-import React, {useEffect, useState} from 'react';
-import {useForm, Controller} from 'react-hook-form';
+import React, { useEffect, useState } from 'react';
+import { useForm, Controller } from 'react-hook-form';
 import InputField from './InputField';
 import http from '../services/HttpService';
-import {useNavigate} from "react-router-dom";
-import {Alert} from "@material-ui/lab";
+import { useNavigate } from "react-router-dom";
+import { Alert } from "@material-ui/lab";
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import ExitToAppOutlinedIcon from '@material-ui/icons/ExitToAppOutlined';
 import {
@@ -66,13 +66,13 @@ export default function SignUp() {
 
     //Remove the access token from localStorage
     useEffect(() => {
-        if(localStorage.getItem('accessToken')){
+        if (localStorage.getItem('accessToken')) {
             localStorage.removeItem('accessToken');
         }
     }, []);
 
     const classes = useStyles();
-    const {handleSubmit, control, formState: {errors}, getValues} = useForm();
+    const { handleSubmit, control, formState: { errors }, getValues } = useForm();
 
     const [errorMessage, setErrorMessage] = useState(null);
     const [successMessage, setSuccessMessage] = useState(null);
@@ -96,7 +96,7 @@ export default function SignUp() {
             setSuccessMessage("User Registered Successfully!");
             setErrorMessage("");
 
-        // Catch username already exists error.
+            // Catch username already exists error.
         } catch (error) {
             console.error('Error signing up:', error.response.data.message);
             setErrorMessage(error.response.data.message);
@@ -110,11 +110,11 @@ export default function SignUp() {
         ? <Alert
             action={
                 <Button color="inherit" size="small"
-                        endIcon={<ExitToAppOutlinedIcon/>}
-                        aria-label="Click to Login"
-                        onClick={() => {
-                            navigate("/sign-in");
-                        }}>
+                    endIcon={<ExitToAppOutlinedIcon />}
+                    aria-label="Click to Login"
+                    onClick={() => {
+                        navigate("/sign-in");
+                    }}>
                     Login
                 </Button>
             }
@@ -123,10 +123,10 @@ export default function SignUp() {
 
     return (
         <Container component="main" maxWidth="xs">
-            <CssBaseline/>
+            <CssBaseline />
             <div className={classes.paper}>
                 <Avatar className={classes.avatar}>
-                    <LockOutlinedIcon/>
+                    <LockOutlinedIcon />
                 </Avatar>
                 <Typography component="h1" variant="h5">
                     Sign up
@@ -140,7 +140,7 @@ export default function SignUp() {
                                 name="firstName"
                                 control={control}
                                 defaultValue=""
-                                rules={{required: 'First Name is required'}}
+                                rules={{ required: 'First Name is required' }}
                                 autoComplete="fname"
                                 label="First Name"
                             />
@@ -150,7 +150,7 @@ export default function SignUp() {
                                 name="lastName"
                                 control={control}
                                 defaultValue=""
-                                rules={{required: 'Last Name is required'}}
+                                rules={{ required: 'Last Name is required' }}
                                 autoComplete="lname"
                                 label="Last Name"
                             />
@@ -173,7 +173,7 @@ export default function SignUp() {
                         <Grid item xs={12}>
                             {/* Display username already exists error. */}
                             {errorMessage && <Alert severity="error">{errorMessage}</Alert>}
-                            </Grid>
+                        </Grid>
                         <Grid item xs={12}>
                             <InputField
                                 name="password"
@@ -230,7 +230,7 @@ export default function SignUp() {
                 </form>
             </div>
             <Box mt={5}>
-                <Copyright/>
+                <Copyright />
             </Box>
         </Container>
     );

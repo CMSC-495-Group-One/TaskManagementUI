@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function Modal({ title, description, difficulty, status, 
+export default function Modal({ title, description, difficulty, status,
     onTitleChange, onDescriptionChange, onDifficultyChange, onStatusChange, fieldDisabled, dialogTitle }) {
     const classes = useStyles();
 
@@ -71,17 +71,17 @@ export default function Modal({ title, description, difficulty, status,
                 <FormControl className={classes.formControl}>
                     <InputLabel id="demo-simple-select-label">Status</InputLabel>
                     <Select
-                      required
-                      labelId="demo-simple-select-label"
-                      id="demo-simple-select"
-                      value={status}
-                      onChange={onStatusChange}
-                      disabled={fieldDisabled}
+                        required
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        value={status}
+                        onChange={onStatusChange}
+                        disabled={fieldDisabled}
                     >
-                      <MenuItem value={"TO_DO"}>To Do</MenuItem>
-                      <MenuItem value={"IN_PROGRESS"}>In Progress</MenuItem>
-                      <MenuItem value={"REVIEW"}>Review</MenuItem>
-                      <MenuItem value={"DONE"}>Done</MenuItem>
+                        <MenuItem value={"TO_DO"}>To Do</MenuItem>
+                        <MenuItem value={"IN_PROGRESS"}>In Progress</MenuItem>
+                        <MenuItem value={"REVIEW"}>Review</MenuItem>
+                        <MenuItem value={"DONE"}>Done</MenuItem>
                     </Select>
                 </FormControl>
             </DialogContent>

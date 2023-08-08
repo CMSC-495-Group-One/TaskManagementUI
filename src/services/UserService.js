@@ -4,9 +4,9 @@ import http from './HttpService'
 http.interceptors.request.use(
     (config) => {
         const token = localStorage.getItem('accessToken');
-        if(token) {
+        if (token) {
             config.headers[`Authorization`] = `Bearer ${token}`;
-        } 
+        }
         return config;
     },
     (error) => {
@@ -18,12 +18,12 @@ http.interceptors.request.use(
 
 const UserService = {
     getUsers: async () => {
-        const response = await http.get('/users'); 
+        const response = await http.get('/users');
         return response.data;
     },
-    
+
     getUserById: async (id) => {
-        const response = await http.get(`/users/${id}`);; 
+        const response = await http.get(`/users/${id}`);;
         return response.data;
     },
 
@@ -45,7 +45,7 @@ const UserService = {
     getUserRoles: async (id) => {
         const response = await http.get(`/users/${id}/roles`);
         return response.data;
-    },    
+    },
 
 };
 

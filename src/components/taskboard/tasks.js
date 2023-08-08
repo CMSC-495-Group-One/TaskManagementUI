@@ -140,11 +140,8 @@ export default function Tasks() {
             try {
                 const tasksData = await TaskService.getTasks();
                 setTasks(tasksData);  // fetched tasks not grouped yet
-                //console.log('All tasks NOT grouped:', tasksData);
-                //console.log('DueDate?', setDueDate());
 
                 const listUsers = await UserService.getUsers();
-                //console.log('All users:', listUsers);
             } catch (error) {
                 console.error('Error getting all tasks:', error);
             }
@@ -153,20 +150,20 @@ export default function Tasks() {
     }, []);
 
     // All possible task statuses
-    const possibleStatuses = ['TO_DO', 'IN_PROGRESS', 'REVIEW', 'DONE']; 
+    const possibleStatuses = ['TO_DO', 'IN_PROGRESS', 'REVIEW', 'DONE'];
 
     // Initialize tasksByStatus object with empty arrays for all possible statuses
     const initialTasksByStatus = possibleStatuses.reduce((acc, status) => {
         acc[status] = [];
         return acc;
-    }, {});    
-    
+    }, {});
+
     // Use lodash to group tasks by status
     const groupedTasks = groupBy(tasks, 'status');
 
     // Merge grouped tasks with the initialTasksByStatus to ensure all swimlanes are shown
-    const tasksByStatus = { ...initialTasksByStatus, ...groupedTasks };    
-    
+    const tasksByStatus = { ...initialTasksByStatus, ...groupedTasks };
+
     const [open, setOpen] = useState(true);
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -195,7 +192,7 @@ export default function Tasks() {
     const [difficulty, setDifficulty] = useState('');
     const [status, setStatus] = useState('');
 
-    // For now, auto set dueDate to 1 week from creation
+    // Auto set dueDate to 1 week from creation
     const setDueDate = () => {
         const currentDate = new Date();
         const dueDate = new Date();
@@ -257,12 +254,12 @@ export default function Tasks() {
                         Task Management Board
                     </Typography>
                     <Button color="inherit" size="small" variant="outlined"
-                            endIcon={<ExitToAppOutlinedIcon/>}
-                            aria-label="Log Out"
-                            onClick={() => {
-                                localStorage.clear();
-                                navigate("/sign-in");
-                            }}>
+                        endIcon={<ExitToAppOutlinedIcon />}
+                        aria-label="Log Out"
+                        onClick={() => {
+                            localStorage.clear();
+                            navigate("/sign-in");
+                        }}>
                         Log Out
                     </Button>
                 </Toolbar>
