@@ -1,6 +1,7 @@
 import { Route, Routes as _Routes } from "react-router-dom";
 import SignInForm from "../SignIn";
 import Tasks from "../taskboard/tasks";
+import Profile from "../taskboard/Profile"
 import { PrivateRoutes } from "./private-routes";
 import SignUp from "../SignUp";
 
@@ -9,6 +10,8 @@ export const Routes = () => {
     <_Routes>
       <Route element={<PrivateRoutes />}>
         <Route path="/tasks" element={<Tasks />} />
+        <Route path="/profile" element={<Profile />} />
+
       </Route>
 
       <Route path="/" element={<SignInForm />} />
