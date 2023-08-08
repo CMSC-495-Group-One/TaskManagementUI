@@ -8,6 +8,7 @@ import {
     AppBar,
     Toolbar,
     List,
+    ListItem,
     Typography,
     Divider,
     IconButton,
@@ -22,7 +23,7 @@ import {
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ExitToAppOutlinedIcon from '@material-ui/icons/ExitToAppOutlined';
-import { mainListItems } from './listItems';
+import { tasksList, profileList } from './listItems';
 import Modal from './modals';
 import Cards from './cards';
 import TaskService from '../../services/TaskService';
@@ -279,7 +280,18 @@ export default function Tasks() {
                     </IconButton>
                 </div>
                 <Divider />
-                <List>{mainListItems}</List>
+                <List>
+                    <ListItem button onClick={() => {
+                        navigate("/tasks");
+                    }}>
+                        {tasksList}
+                    </ListItem>
+                    <ListItem button onClick={() => {
+                        navigate("/profile");
+                    }}>
+                        {profileList}
+                    </ListItem>
+                </List>
                 <Divider />
             </Drawer>
             <main className={classes.content}>

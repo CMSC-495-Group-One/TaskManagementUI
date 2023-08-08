@@ -9,32 +9,21 @@ import {
     AppBar,
     Toolbar,
     List,
+    ListItem,
     Typography,
     Divider,
+    Button,
     IconButton,
-    Badge,
     Container,
-    Link,
 } from "@material-ui/core"
 import MenuIcon from '@material-ui/icons/Menu';
 import EmailIcon from '@material-ui/icons/Email';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import NotificationsIcon from '@material-ui/icons/Notifications';
-import { mainListItems } from './listItems';
+import ExitToAppOutlinedIcon from '@material-ui/icons/ExitToAppOutlined';
+import { tasksList, profileList } from './listItems';
 import { useAuth } from "../../context/AuthProvider";
 import UserService from "../../services/UserService";
-function Copyright() {
-    return (
-        <Typography variant="body2" color="textSecondary" align="center">
-            {'Copyright © '}
-            <Link color="inherit" href="https://github.com/CMSC-495-Group-One/TaskManagementUI.gi">
-                Git Repo
-            </Link>{' '}
-            {new Date().getFullYear()}
-            {'.'}
-        </Typography>
-    );
-}
+import { useNavigate } from 'react-router-dom';
 
 const drawerWidth = 240;
 
@@ -129,6 +118,7 @@ export default function Profile() {
     const classes = useStyles();
     const [userInfo, setUserInfo] = useState([]);
     const { signIn, user } = useAuth();
+    const navigate = useNavigate();
 
     //fetch user data
     useEffect(() => {
@@ -192,11 +182,15 @@ export default function Profile() {
                     <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
                         User Information
                     </Typography>
-                    <IconButton color="inherit">
-                        <Badge badgeContent={4} color="secondary" overlap="rectangular">
-                            <NotificationsIcon />
-                        </Badge>
-                    </IconButton>
+                    <Button color="inherit" size="small" variant="outlined"
+                            endIcon={<ExitToAppOutlinedIcon/>}
+                            aria-label="Log Out"
+                            onClick={() => {
+                                localStorage.clear();
+                                navigate("/sign-in");
+                            }}>
+                        Log Out
+                    </Button>
                 </Toolbar>
             </AppBar>
             <Drawer
@@ -212,7 +206,18 @@ export default function Profile() {
                     </IconButton>
                 </div>
                 <Divider />
-                <List>{mainListItems}</List>
+                <List>
+                    <ListItem button onClick={() => {
+                        navigate("/tasks");
+                    }}>
+                        {tasksList}
+                    </ListItem>
+                    <ListItem button onClick={() => {
+                        navigate("/profile");
+                    }}>
+                        {profileList}
+                    </ListItem>
+                </List>
                 <Divider />
             </Drawer>
             <main className={classes.content}>
